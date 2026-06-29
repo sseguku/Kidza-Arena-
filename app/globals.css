@@ -2,7 +2,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ─── Kidza Arena Design System ───────────────────────────────────────────
+   Brand: More Than a Pitch. It's an Adventure.
+   Personality: Affordable · Community · Competitive · Fun
+   ─────────────────────────────────────────────────────────────────────── */
+
 @theme inline {
+  /* Semantic colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -21,11 +27,33 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  /* Brand palette */
+  --color-pitch: var(--pitch);
+  --color-pitch-foreground: var(--pitch-foreground);
+  --color-adventure: var(--adventure);
+  --color-adventure-foreground: var(--adventure-foreground);
+  --color-community: var(--community);
+  --color-community-foreground: var(--community-foreground);
+  --color-value: var(--value);
+  --color-value-foreground: var(--value-foreground);
+  --color-fun: var(--fun);
+  --color-fun-foreground: var(--fun-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+
+  /* Charts */
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  /* Sidebar */
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -34,82 +62,305 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Radius */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: var(--font-geist-sans);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-full: 9999px;
+
+  /* Typography */
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
   --font-mono: var(--font-geist-mono);
+
+  /* Spacing scale (4px base) */
+  --spacing-kidza-0: 0px;
+  --spacing-kidza-1: 0.25rem;
+  --spacing-kidza-2: 0.5rem;
+  --spacing-kidza-3: 0.75rem;
+  --spacing-kidza-4: 1rem;
+  --spacing-kidza-5: 1.25rem;
+  --spacing-kidza-6: 1.5rem;
+  --spacing-kidza-8: 2rem;
+  --spacing-kidza-10: 2.5rem;
+  --spacing-kidza-12: 3rem;
+  --spacing-kidza-16: 4rem;
+  --spacing-kidza-20: 5rem;
+  --spacing-kidza-24: 6rem;
+
+  /* Motion */
+  --ease-kidza-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-kidza-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-kidza-fast: 150ms;
+  --duration-kidza-base: 250ms;
+  --duration-kidza-slow: 400ms;
+
+  --animate-kidza-bounce-in: kidza-bounce-in var(--duration-kidza-slow)
+    var(--ease-kidza-bounce) both;
+  --animate-kidza-fade-up: kidza-fade-up var(--duration-kidza-slow)
+    var(--ease-kidza-smooth) both;
+  --animate-kidza-fade-in: kidza-fade-in var(--duration-kidza-base)
+    var(--ease-kidza-smooth) both;
+  --animate-kidza-pulse-soft: kidza-pulse-soft 2s var(--ease-kidza-smooth)
+    infinite;
+  --animate-kidza-shimmer: kidza-shimmer 2s linear infinite;
+  --animate-kidza-wiggle: kidza-wiggle 0.5s var(--ease-kidza-bounce) both;
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(0.985 0.002 247);
-  --foreground: oklch(0.145 0.02 260);
+  --radius: 0.75rem;
+
+  /* Surfaces */
+  --background: oklch(0.99 0.004 95);
+  --foreground: oklch(0.22 0.04 260);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0.02 260);
+  --card-foreground: oklch(0.22 0.04 260);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0.02 260);
-  --primary: oklch(0.45 0.14 145);
-  --primary-foreground: oklch(0.985 0.002 247);
-  --secondary: oklch(0.96 0.01 145);
-  --secondary-foreground: oklch(0.25 0.06 145);
-  --muted: oklch(0.96 0.005 247);
-  --muted-foreground: oklch(0.5 0.02 260);
-  --accent: oklch(0.94 0.03 145);
-  --accent-foreground: oklch(0.25 0.06 145);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.9 0.01 247);
-  --input: oklch(0.9 0.01 247);
-  --ring: oklch(0.45 0.14 145);
-  --chart-1: oklch(0.55 0.16 145);
-  --chart-2: oklch(0.6 0.12 200);
-  --chart-3: oklch(0.65 0.14 85);
-  --chart-4: oklch(0.7 0.1 45);
-  --chart-5: oklch(0.75 0.08 320);
-  --sidebar: oklch(0.985 0.002 247);
-  --sidebar-foreground: oklch(0.145 0.02 260);
-  --sidebar-primary: oklch(0.45 0.14 145);
-  --sidebar-primary-foreground: oklch(0.985 0.002 247);
-  --sidebar-accent: oklch(0.96 0.01 145);
-  --sidebar-accent-foreground: oklch(0.25 0.06 145);
-  --sidebar-border: oklch(0.9 0.01 247);
-  --sidebar-ring: oklch(0.45 0.14 145);
+  --popover-foreground: oklch(0.22 0.04 260);
+
+  /* Pitch green — competitive, football */
+  --primary: oklch(0.48 0.14 152);
+  --primary-foreground: oklch(0.99 0.004 95);
+  --pitch: oklch(0.48 0.14 152);
+  --pitch-foreground: oklch(0.99 0.004 95);
+
+  /* Secondary — soft pitch tint */
+  --secondary: oklch(0.95 0.03 152);
+  --secondary-foreground: oklch(0.32 0.08 152);
+
+  --muted: oklch(0.96 0.008 95);
+  --muted-foreground: oklch(0.48 0.02 260);
+
+  /* Accent — light adventure warmth */
+  --accent: oklch(0.96 0.04 55);
+  --accent-foreground: oklch(0.35 0.1 55);
+
+  /* Adventure coral — fun, exploration */
+  --adventure: oklch(0.62 0.19 32);
+  --adventure-foreground: oklch(0.99 0.004 95);
+
+  /* Community sky — togetherness, trust */
+  --community: oklch(0.58 0.14 235);
+  --community-foreground: oklch(0.99 0.004 95);
+
+  /* Value gold — affordable, accessible */
+  --value: oklch(0.78 0.16 85);
+  --value-foreground: oklch(0.25 0.06 85);
+
+  /* Fun orange — energy, play */
+  --fun: oklch(0.68 0.19 55);
+  --fun-foreground: oklch(0.99 0.004 95);
+
+  /* Feedback */
+  --destructive: oklch(0.55 0.22 25);
+  --success: oklch(0.55 0.14 152);
+  --success-foreground: oklch(0.99 0.004 95);
+  --warning: oklch(0.75 0.16 75);
+  --warning-foreground: oklch(0.28 0.06 75);
+  --info: oklch(0.58 0.14 235);
+  --info-foreground: oklch(0.99 0.004 95);
+
+  --border: oklch(0.91 0.01 95);
+  --input: oklch(0.91 0.01 95);
+  --ring: oklch(0.48 0.14 152);
+
+  /* Charts */
+  --chart-1: oklch(0.48 0.14 152);
+  --chart-2: oklch(0.62 0.19 32);
+  --chart-3: oklch(0.58 0.14 235);
+  --chart-4: oklch(0.78 0.16 85);
+  --chart-5: oklch(0.68 0.19 55);
+
+  /* Sidebar */
+  --sidebar: oklch(0.98 0.006 95);
+  --sidebar-foreground: oklch(0.22 0.04 260);
+  --sidebar-primary: oklch(0.48 0.14 152);
+  --sidebar-primary-foreground: oklch(0.99 0.004 95);
+  --sidebar-accent: oklch(0.95 0.03 152);
+  --sidebar-accent-foreground: oklch(0.32 0.08 152);
+  --sidebar-border: oklch(0.91 0.01 95);
+  --sidebar-ring: oklch(0.48 0.14 152);
+
+  /* Gradients */
+  --gradient-adventure: linear-gradient(
+    135deg,
+    oklch(0.62 0.19 32) 0%,
+    oklch(0.68 0.19 55) 100%
+  );
+  --gradient-pitch: linear-gradient(
+    135deg,
+    oklch(0.42 0.12 152) 0%,
+    oklch(0.52 0.16 152) 100%
+  );
+  --gradient-community: linear-gradient(
+    135deg,
+    oklch(0.52 0.12 235) 0%,
+    oklch(0.62 0.14 235) 100%
+  );
+  --gradient-hero: linear-gradient(
+    160deg,
+    oklch(0.96 0.04 152) 0%,
+    oklch(0.99 0.004 95) 40%,
+    oklch(0.97 0.04 55) 100%
+  );
 }
 
 .dark {
-  --background: oklch(0.145 0.02 260);
-  --foreground: oklch(0.985 0.002 247);
-  --card: oklch(0.2 0.02 260);
-  --card-foreground: oklch(0.985 0.002 247);
-  --popover: oklch(0.2 0.02 260);
-  --popover-foreground: oklch(0.985 0.002 247);
-  --primary: oklch(0.65 0.16 145);
-  --primary-foreground: oklch(0.145 0.02 260);
-  --secondary: oklch(0.25 0.04 260);
-  --secondary-foreground: oklch(0.985 0.002 247);
-  --muted: oklch(0.25 0.02 260);
+  --background: oklch(0.16 0.03 260);
+  --foreground: oklch(0.97 0.004 95);
+  --card: oklch(0.2 0.03 260);
+  --card-foreground: oklch(0.97 0.004 95);
+  --popover: oklch(0.2 0.03 260);
+  --popover-foreground: oklch(0.97 0.004 95);
+
+  --primary: oklch(0.62 0.16 152);
+  --primary-foreground: oklch(0.16 0.03 260);
+  --pitch: oklch(0.62 0.16 152);
+  --pitch-foreground: oklch(0.16 0.03 260);
+
+  --secondary: oklch(0.26 0.04 260);
+  --secondary-foreground: oklch(0.97 0.004 95);
+
+  --muted: oklch(0.26 0.03 260);
   --muted-foreground: oklch(0.65 0.02 260);
-  --accent: oklch(0.25 0.04 260);
-  --accent-foreground: oklch(0.985 0.002 247);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
+
+  --accent: oklch(0.28 0.05 55);
+  --accent-foreground: oklch(0.97 0.004 95);
+
+  --adventure: oklch(0.68 0.18 32);
+  --adventure-foreground: oklch(0.16 0.03 260);
+
+  --community: oklch(0.65 0.14 235);
+  --community-foreground: oklch(0.16 0.03 260);
+
+  --value: oklch(0.82 0.14 85);
+  --value-foreground: oklch(0.22 0.06 85);
+
+  --fun: oklch(0.72 0.17 55);
+  --fun-foreground: oklch(0.16 0.03 260);
+
+  --destructive: oklch(0.65 0.2 25);
+  --success: oklch(0.62 0.14 152);
+  --success-foreground: oklch(0.16 0.03 260);
+  --warning: oklch(0.78 0.14 75);
+  --warning-foreground: oklch(0.22 0.06 75);
+  --info: oklch(0.65 0.14 235);
+  --info-foreground: oklch(0.16 0.03 260);
+
+  --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.65 0.16 145);
-  --chart-1: oklch(0.65 0.16 145);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.2 0.02 260);
-  --sidebar-foreground: oklch(0.985 0.002 247);
-  --sidebar-primary: oklch(0.65 0.16 145);
-  --sidebar-primary-foreground: oklch(0.985 0.002 247);
-  --sidebar-accent: oklch(0.25 0.04 260);
-  --sidebar-accent-foreground: oklch(0.985 0.002 247);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.65 0.16 145);
+  --ring: oklch(0.62 0.16 152);
+
+  --chart-1: oklch(0.62 0.16 152);
+  --chart-2: oklch(0.68 0.18 32);
+  --chart-3: oklch(0.65 0.14 235);
+  --chart-4: oklch(0.82 0.14 85);
+  --chart-5: oklch(0.72 0.17 55);
+
+  --sidebar: oklch(0.18 0.03 260);
+  --sidebar-foreground: oklch(0.97 0.004 95);
+  --sidebar-primary: oklch(0.62 0.16 152);
+  --sidebar-primary-foreground: oklch(0.16 0.03 260);
+  --sidebar-accent: oklch(0.26 0.04 260);
+  --sidebar-accent-foreground: oklch(0.97 0.004 95);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.62 0.16 152);
+
+  --gradient-adventure: linear-gradient(
+    135deg,
+    oklch(0.58 0.17 32) 0%,
+    oklch(0.65 0.17 55) 100%
+  );
+  --gradient-pitch: linear-gradient(
+    135deg,
+    oklch(0.38 0.1 152) 0%,
+    oklch(0.55 0.15 152) 100%
+  );
+  --gradient-community: linear-gradient(
+    135deg,
+    oklch(0.48 0.12 235) 0%,
+    oklch(0.6 0.13 235) 100%
+  );
+  --gradient-hero: linear-gradient(
+    160deg,
+    oklch(0.2 0.04 152) 0%,
+    oklch(0.16 0.03 260) 50%,
+    oklch(0.22 0.05 55) 100%
+  );
 }
+
+/* ─── Keyframes ─────────────────────────────────────────────────────────── */
+
+@keyframes kidza-bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(8px);
+  }
+  60% {
+    transform: scale(1.02) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes kidza-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes kidza-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes kidza-pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes kidza-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes kidza-wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-3deg);
+  }
+  75% {
+    transform: rotate(3deg);
+  }
+}
+
+/* ─── Base styles ───────────────────────────────────────────────────────── */
 
 @layer base {
   * {
@@ -118,5 +369,160 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    @apply tracking-tight;
+  }
+}
+
+/* ─── Typography utilities ───────────────────────────────────────────────── */
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .text-display-xl {
+    font-family: var(--font-display);
+    @apply text-5xl leading-none font-bold tracking-tight sm:text-6xl lg:text-7xl;
+  }
+
+  .text-display-lg {
+    font-family: var(--font-display);
+    @apply text-4xl leading-tight font-bold tracking-tight sm:text-5xl;
+  }
+
+  .text-display-md {
+    font-family: var(--font-display);
+    @apply text-3xl leading-tight font-bold tracking-tight sm:text-4xl;
+  }
+
+  .text-display-sm {
+    font-family: var(--font-display);
+    @apply text-2xl leading-snug font-semibold tracking-tight sm:text-3xl;
+  }
+
+  .text-heading-lg {
+    font-family: var(--font-display);
+    @apply text-xl leading-snug font-semibold tracking-tight sm:text-2xl;
+  }
+
+  .text-heading-md {
+    font-family: var(--font-display);
+    @apply text-lg leading-snug font-semibold tracking-tight;
+  }
+
+  .text-heading-sm {
+    font-family: var(--font-display);
+    @apply text-base leading-snug font-semibold tracking-tight;
+  }
+
+  .text-body-lg {
+    @apply text-lg leading-relaxed;
+  }
+
+  .text-body-md {
+    @apply text-base leading-relaxed;
+  }
+
+  .text-body-sm {
+    @apply text-sm leading-relaxed;
+  }
+
+  .text-caption {
+    @apply text-xs leading-normal tracking-wide text-muted-foreground uppercase;
+  }
+
+  .text-eyebrow {
+    @apply text-xs leading-none font-semibold tracking-widest uppercase;
+  }
+
+  /* Brand gradients */
+  .bg-gradient-adventure {
+    background-image: var(--gradient-adventure);
+  }
+
+  .bg-gradient-pitch {
+    background-image: var(--gradient-pitch);
+  }
+
+  .bg-gradient-community {
+    background-image: var(--gradient-community);
+  }
+
+  .bg-gradient-hero {
+    background-image: var(--gradient-hero);
+  }
+
+  .text-gradient-adventure {
+    background-image: var(--gradient-adventure);
+    @apply bg-clip-text text-transparent;
+  }
+
+  .text-gradient-pitch {
+    background-image: var(--gradient-pitch);
+    @apply bg-clip-text text-transparent;
+  }
+
+  /* Spacing utilities */
+  .gap-kidza-1 {
+    gap: var(--spacing-kidza-1);
+  }
+  .gap-kidza-2 {
+    gap: var(--spacing-kidza-2);
+  }
+  .gap-kidza-3 {
+    gap: var(--spacing-kidza-3);
+  }
+  .gap-kidza-4 {
+    gap: var(--spacing-kidza-4);
+  }
+  .gap-kidza-6 {
+    gap: var(--spacing-kidza-6);
+  }
+  .gap-kidza-8 {
+    gap: var(--spacing-kidza-8);
+  }
+
+  .p-kidza-4 {
+    padding: var(--spacing-kidza-4);
+  }
+  .p-kidza-6 {
+    padding: var(--spacing-kidza-6);
+  }
+  .p-kidza-8 {
+    padding: var(--spacing-kidza-8);
+  }
+
+  /* Animation utilities */
+  .animate-kidza-bounce-in {
+    animation: var(--animate-kidza-bounce-in);
+  }
+
+  .animate-kidza-fade-up {
+    animation: var(--animate-kidza-fade-up);
+  }
+
+  .animate-kidza-fade-in {
+    animation: var(--animate-kidza-fade-in);
+  }
+
+  .animate-kidza-pulse-soft {
+    animation: var(--animate-kidza-pulse-soft);
+  }
+
+  .animate-kidza-shimmer {
+    animation: var(--animate-kidza-shimmer);
+  }
+
+  .animate-kidza-wiggle {
+    animation: var(--animate-kidza-wiggle);
   }
 }

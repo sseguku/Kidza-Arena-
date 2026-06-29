@@ -1,9 +1,23 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  Bricolage_Grotesque,
+  Plus_Jakarta_Sans,
+  Geist_Mono,
+} from "next/font/google";
 
-export const geistSans = Geist({
-  variable: "--font-geist-sans",
+/** Display — bold, adventurous headlines (Competitive + Fun) */
+export const displayFont = Bricolage_Grotesque({
+  variable: "--font-display",
   subsets: ["latin"],
   display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+/** Body — friendly, readable UI text (Community + Affordable) */
+export const bodyFont = Plus_Jakarta_Sans({
+  variable: "--font-body",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const geistMono = Geist_Mono({
@@ -12,4 +26,4 @@ export const geistMono = Geist_Mono({
   display: "swap",
 });
 
-export const fontVariables = `${geistSans.variable} ${geistMono.variable}`;
+export const fontVariables = `${displayFont.variable} ${bodyFont.variable} ${geistMono.variable}`;

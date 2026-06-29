@@ -11,19 +11,19 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="flex items-center gap-2">
-              <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-foreground">
+              <span className="flex size-9 items-center justify-center rounded-lg bg-gradient-pitch text-sm font-bold text-pitch-foreground shadow-sm">
                 KA
               </span>
-              <span className="text-lg font-semibold">{siteConfig.name}</span>
+              <span className="font-display text-lg font-semibold">{siteConfig.name}</span>
             </Link>
-            <p className="mt-4 max-w-xs text-sm text-muted-foreground">
+            <p className="mt-4 max-w-xs text-body-sm text-muted-foreground">
               {siteConfig.description}
             </p>
           </div>
 
           {footerNavGroups.map((group) => (
             <div key={group.title}>
-              <h3 className="text-sm font-semibold">{group.title}</h3>
+              <h3 className="font-display text-heading-sm">{group.title}</h3>
               <ul className="mt-4 space-y-3">
                 {group.links.map((link) => (
                   <li key={link.href}>
