@@ -59,6 +59,12 @@ export {
 } from "./table";
 export { Separator } from "./separator";
 export {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./accordion";
+export {
   Sheet,
   SheetClose,
   SheetContent,

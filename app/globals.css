@@ -90,6 +90,13 @@
   --spacing-kidza-16: 4rem;
   --spacing-kidza-20: 5rem;
   --spacing-kidza-24: 6rem;
+  --spacing-kidza-32: 8rem;
+  --spacing-kidza-40: 10rem;
+
+  /* Section vertical rhythm */
+  --spacing-section-y: 6rem;
+  --spacing-section-y-lg: 8rem;
+  --spacing-section-y-xl: 10rem;
 
   /* Motion */
   --ease-kidza-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -111,7 +118,7 @@
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 1.25rem;
 
   /* Surfaces */
   --background: oklch(0.99 0.004 95);
@@ -391,57 +398,100 @@
 
   .text-display-xl {
     font-family: var(--font-display);
-    @apply text-5xl leading-none font-bold tracking-tight sm:text-6xl lg:text-7xl;
+    @apply text-5xl leading-[1.02] font-bold tracking-tight sm:text-6xl lg:text-7xl xl:text-8xl;
   }
 
   .text-display-lg {
     font-family: var(--font-display);
-    @apply text-4xl leading-tight font-bold tracking-tight sm:text-5xl;
+    @apply text-4xl leading-[1.05] font-bold tracking-tight sm:text-5xl lg:text-6xl;
   }
 
   .text-display-md {
     font-family: var(--font-display);
-    @apply text-3xl leading-tight font-bold tracking-tight sm:text-4xl;
+    @apply text-3xl leading-[1.08] font-bold tracking-tight sm:text-4xl lg:text-5xl xl:text-[3.75rem];
   }
 
   .text-display-sm {
     font-family: var(--font-display);
-    @apply text-2xl leading-snug font-semibold tracking-tight sm:text-3xl;
+    @apply text-2xl leading-snug font-bold tracking-tight sm:text-3xl lg:text-4xl;
+  }
+
+  /* Landing page scale */
+  .text-hero {
+    font-family: var(--font-display);
+    @apply text-[2.5rem] leading-[1.02] font-bold tracking-tight text-balance sm:text-5xl md:text-6xl lg:text-[4.5rem] lg:leading-[1.02] xl:text-[6rem];
+  }
+
+  .text-section-title {
+    font-family: var(--font-display);
+    @apply text-[2rem] leading-[1.08] font-bold tracking-tight text-balance sm:text-4xl lg:text-5xl xl:text-[3.75rem];
+  }
+
+  .text-subtitle {
+    @apply text-lg leading-relaxed sm:text-xl lg:text-2xl xl:text-[2rem] xl:leading-snug;
+  }
+
+  .text-nav {
+    @apply text-base font-medium sm:text-lg;
   }
 
   .text-heading-lg {
     font-family: var(--font-display);
-    @apply text-xl leading-snug font-semibold tracking-tight sm:text-2xl;
+    @apply text-xl leading-snug font-semibold tracking-tight sm:text-2xl lg:text-3xl;
   }
 
   .text-heading-md {
     font-family: var(--font-display);
-    @apply text-lg leading-snug font-semibold tracking-tight;
+    @apply text-lg leading-snug font-semibold tracking-tight sm:text-xl lg:text-2xl;
   }
 
   .text-heading-sm {
     font-family: var(--font-display);
-    @apply text-base leading-snug font-semibold tracking-tight;
+    @apply text-base leading-snug font-semibold tracking-tight sm:text-lg;
   }
 
   .text-body-lg {
-    @apply text-lg leading-relaxed;
+    @apply text-base leading-relaxed sm:text-lg lg:text-xl;
   }
 
   .text-body-md {
-    @apply text-base leading-relaxed;
+    @apply text-base leading-relaxed lg:text-lg;
   }
 
   .text-body-sm {
-    @apply text-sm leading-relaxed;
+    @apply text-sm leading-relaxed sm:text-base;
   }
 
   .text-caption {
-    @apply text-xs leading-normal tracking-wide text-muted-foreground uppercase;
+    @apply text-xs leading-normal tracking-widest text-muted-foreground uppercase sm:text-sm;
   }
 
   .text-eyebrow {
-    @apply text-xs leading-none font-semibold tracking-widest uppercase;
+    @apply text-xs leading-none font-bold tracking-[0.2em] uppercase sm:text-sm;
+  }
+
+  /* Layout */
+  .container-premium {
+    @apply mx-auto w-full max-w-[90rem] px-5 sm:px-8 lg:px-12 xl:px-16;
+  }
+
+  .section-spacing {
+    padding-top: var(--spacing-section-y);
+    padding-bottom: var(--spacing-section-y);
+  }
+
+  @media (min-width: 1024px) {
+    .section-spacing {
+      padding-top: var(--spacing-section-y-lg);
+      padding-bottom: var(--spacing-section-y-lg);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .section-spacing {
+      padding-top: var(--spacing-section-y-xl);
+      padding-bottom: var(--spacing-section-y-xl);
+    }
   }
 
   /* Brand gradients */

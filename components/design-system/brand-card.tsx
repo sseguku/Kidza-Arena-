@@ -61,11 +61,11 @@ export function StatCard({
   className,
 }: StatCardProps) {
   return (
-    <Card variant={variant} className={cn("gap-3 py-5", className)}>
-      <CardHeader className="gap-1 px-5">
+    <Card variant={variant} className={cn("gap-4 py-8 lg:py-10", className)}>
+      <CardHeader className="gap-2">
         <CardDescription className="text-caption">{label}</CardDescription>
-        <CardTitle className="text-display-sm">{value}</CardTitle>
-        {hint && <p className="text-body-sm text-muted-foreground">{hint}</p>}
+        <CardTitle className="text-display-sm lg:text-display-md">{value}</CardTitle>
+        {hint && <p className="text-body-md text-muted-foreground">{hint}</p>}
       </CardHeader>
     </Card>
   );
