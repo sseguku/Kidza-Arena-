@@ -575,4 +575,105 @@
   .animate-kidza-wiggle {
     animation: var(--animate-kidza-wiggle);
   }
+
+  /* ─── Landing page (Phase 3.1) ─────────────────────────────────────────── */
+
+  .text-landing-hero {
+    font-family: var(--font-display);
+    @apply text-[2.75rem] leading-[0.95] font-bold tracking-tight text-balance sm:text-6xl md:text-7xl lg:text-[5rem] xl:text-[6rem];
+  }
+
+  .text-landing-section {
+    font-family: var(--font-display);
+    @apply text-[2.25rem] leading-[1.05] font-bold tracking-tight text-balance sm:text-5xl lg:text-[3.5rem] xl:text-[4rem];
+  }
+
+  .text-landing-card {
+    font-family: var(--font-display);
+    @apply text-xl font-bold tracking-tight sm:text-2xl lg:text-3xl;
+  }
+
+  .text-landing-body {
+    @apply text-base leading-relaxed sm:text-lg lg:text-xl;
+  }
+
+  .text-landing-eyebrow {
+    @apply text-xs font-bold tracking-[0.25em] uppercase sm:text-sm;
+  }
+
+  .text-gold {
+    color: var(--landing-gold);
+  }
+
+  .bg-landing-green {
+    background-color: var(--landing-green);
+  }
+
+  .bg-landing-gold {
+    background-color: var(--landing-gold);
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #ffd54a 0%, #ffb300 100%);
+    @apply bg-clip-text text-transparent;
+  }
+
+  .glass-panel {
+    @apply border border-white/10 bg-white/5 shadow-xl backdrop-blur-xl;
+  }
+
+  .glass-panel-strong {
+    @apply border border-white/15 bg-white/10 shadow-2xl backdrop-blur-2xl;
+  }
+
+  .landing-container {
+    @apply mx-auto w-full max-w-[90rem] px-5 sm:px-8 lg:px-12 xl:px-16;
+  }
+
+  .landing-section {
+    @apply py-24 sm:py-28 lg:py-32 xl:py-40;
+  }
+
+  .shadow-landing {
+    box-shadow: 0 24px 80px -12px rgb(0 0 0 / 0.55);
+  }
+
+  .shadow-glow-green {
+    box-shadow: 0 0 60px -12px rgb(17 122 61 / 0.45);
+  }
+
+  .shadow-glow-gold {
+    box-shadow: 0 0 40px -8px rgb(255 213 74 / 0.35);
+  }
+}
+
+/* Landing dark theme scope */
+.landing-theme {
+  --landing-bg: #0b0f14;
+  --landing-green: #117a3d;
+  --landing-green-light: #1a9b4f;
+  --landing-gold: #ffd54a;
+  --landing-gold-dim: #ffb300;
+  --landing-text: #ffffff;
+  --landing-muted: #9ca3af;
+  --landing-border: rgb(255 255 255 / 0.1);
+
+  --background: var(--landing-bg);
+  --foreground: var(--landing-text);
+  --primary: var(--landing-green);
+  --primary-foreground: #ffffff;
+  --muted: #151b24;
+  --muted-foreground: var(--landing-muted);
+  --border: var(--landing-border);
+  --ring: var(--landing-green);
+  --card: #111820;
+  --card-foreground: var(--landing-text);
+
+  background-color: var(--landing-bg);
+  color: var(--landing-text);
+}
+
+.landing-theme ::selection {
+  background: rgb(17 122 61 / 0.45);
+  color: #fff;
 }

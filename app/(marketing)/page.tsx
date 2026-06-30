@@ -1,23 +1,27 @@
 import type { Metadata } from "next";
 import {
-  AboutSection,
-  AcademyPreviewSection,
-  CtaSection,
+  AcademySection,
+  BookingCtaSection,
   FacilitiesSection,
   FaqSection,
-  GalleryPreviewSection,
+  GallerySection,
   HeroSection,
   LandingFooter,
-  PricingPreviewSection,
+  LocationSection,
+  MatchHighlightsSection,
+  PitchExperienceSection,
+  PricingSection,
   TestimonialsSection,
-  TournamentPreviewSection,
+  TournamentsSection,
+  TrustedBySection,
+  WhyKidzaSection,
 } from "@/components/landing";
 import { createPageMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = createPageMetadata({
   title: "Kidza Arena — Kampala's Premier Football Venue",
   description:
-    "FIFA-standard turf, floodlit nights, academy training, and tournaments. The best football venue in Kampala.",
+    "More Than a Pitch. It's an Adventure. Premium turf, academy, tournaments & events. The best football venue in Kampala.",
   path: "/",
 });
 
@@ -25,15 +29,19 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <TrustedBySection />
+      <WhyKidzaSection />
       <FacilitiesSection />
-      <AboutSection />
-      <GalleryPreviewSection />
-      <AcademyPreviewSection />
-      <TournamentPreviewSection />
+      <PitchExperienceSection />
+      <MatchHighlightsSection />
+      <GallerySection />
+      <AcademySection />
+      <TournamentsSection />
       <TestimonialsSection />
-      <PricingPreviewSection />
-      <CtaSection />
+      <PricingSection />
+      <BookingCtaSection />
       <FaqSection />
+      <LocationSection />
       <LandingFooter />
     </>
   );

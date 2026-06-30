@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/layout/navbar";
+import { LandingNavbar } from "@/components/landing";
 
 export default function MarketingLayout({
   children,
@@ -6,8 +6,8 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="relative flex min-h-screen flex-col">
-      <Navbar />
+    <div className="landing-theme relative flex min-h-screen flex-col">
+      <LandingNavbar />
       <main className="flex-1">{children}</main>
     </div>
   );

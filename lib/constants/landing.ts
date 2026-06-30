@@ -1,179 +1,342 @@
-/** Static landing page content — no business logic */
+/**
+ * Kidza Arena landing page content — static data only, no business logic.
+ * @module lib/constants/landing
+ */
 
-export const heroContent = {
-  eyebrow: "Kampala's Premier Football Destination",
-  headline: "This is the best football venue in Kampala.",
+export const brand = {
+  name: "Kidza Arena",
+  tagline: "More Than a Pitch. It's an Adventure.",
+  phone: "+256 700 123 456",
+  whatsapp: "+256700123456",
+  email: "hello@kidzaarena.ug",
+  address: "Plot 14, Lugogo Bypass, Kampala, Uganda",
+  hours: "Open 24/7",
+} as const;
+
+export const hero = {
+  eyebrow: "Kampala's Premier Football Arena",
+  headline: "The best football venue in Kampala.",
   subheadline:
-    "FIFA-standard turf, floodlit nights, and a community built for players who demand more from every match.",
-  primaryCta: "Explore the Arena",
-  secondaryCta: "View Facilities",
+    "Premium turf. Floodlit nights. Academy training. Tournaments. Where friends, families, schools, and communities come to play, compete, and create memories.",
+  primaryCta: "Book Now",
+  secondaryCta: "View Gallery",
   videoSrc:
     "https://videos.pexels.com/video-files/3997749/3997749-sd_960_540_30fps.mp4",
   posterSrc:
-    "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=1920&q=80&auto=format&fit=crop",
-};
+    "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=1920&q=85&auto=format&fit=crop",
+  stats: [
+    { id: "hours", value: "24/7", label: "Open" },
+    { id: "matches", value: 5000, suffix: "+", label: "Matches Played" },
+    { id: "players", value: 1000, suffix: "+", label: "Happy Players" },
+    { id: "turf", value: "Premium", label: "Artificial Turf" },
+  ],
+  badges: ["FIFA-Standard Turf", "UEFA Coaches", "Secure Venue"],
+} as const;
+
+export const trustedBy = {
+  eyebrow: "Trusted by the Community",
+  headline: "Where Kampala comes to play",
+  partners: [
+    "Schools & Universities",
+    "Corporate Teams",
+    "Youth Academies",
+    "Community Leagues",
+    "Birthday Parties",
+    "Team Building",
+  ],
+} as const;
+
+export const whyKidza = {
+  eyebrow: "Why Kidza Arena",
+  headline: "More than a pitch. It's an adventure.",
+  description:
+    "Kidza Arena is affordable, community-driven, competitive, and fun — built for everyone who loves the beautiful game.",
+  pillars: [
+    {
+      id: "affordable",
+      title: "Affordable",
+      description:
+        "World-class football without world-class prices. Transparent rates for casual players and committed teams.",
+      accent: "gold" as const,
+    },
+    {
+      id: "community",
+      title: "Community",
+      description:
+        "A home for schools, companies, families, and neighbourhoods. Football that brings people together.",
+      accent: "green" as const,
+    },
+    {
+      id: "competitive",
+      title: "Competitive",
+      description:
+        "Tournaments, leagues, and academy pathways for players who want to test themselves at the highest level.",
+      accent: "green" as const,
+    },
+    {
+      id: "fun",
+      title: "Fun",
+      description:
+        "Friendly matches, birthday parties, corporate events — every visit feels like match day.",
+      accent: "gold" as const,
+    },
+  ],
+} as const;
 
 export const facilities = [
   {
-    id: "pitch",
-    title: "FIFA-Quality Turf",
-    description:
-      "Professional-grade artificial grass with optimal shock absorption — the same standard top academies trust.",
-    icon: "pitch" as const,
-  },
-  {
     id: "floodlights",
     title: "Pro Floodlights",
-    description:
-      "Train and play under stadium-level illumination. Book evening slots without compromising visibility.",
+    description: "Play under stadium-quality illumination. Evening slots without compromise.",
     icon: "zap" as const,
-  },
-  {
-    id: "changing",
-    title: "Premium Changing Rooms",
-    description:
-      "Spacious lockers, hot showers, and match-day amenities that make every visit feel professional.",
-    icon: "shield" as const,
-  },
-  {
-    id: "café",
-    title: "Players' Lounge & Café",
-    description:
-      "Pre-match coffee, post-game recovery drinks, and a social space for teams and supporters.",
-    icon: "community" as const,
   },
   {
     id: "parking",
     title: "Secure Parking",
-    description:
-      "Ample on-site parking with 24/7 security — arrive focused, leave without the hassle.",
+    description: "Ample on-site parking with 24/7 security for players and guests.",
     icon: "location" as const,
   },
   {
-    id: "medical",
-    title: "First-Aid & Recovery",
-    description:
-      "On-site first-aid station and stretching zones to keep your squad match-ready all season.",
+    id: "changing",
+    title: "Changing Rooms",
+    description: "Spacious lockers, hot showers, and match-day amenities.",
+    icon: "shield" as const,
+  },
+  {
+    id: "washrooms",
+    title: "Washrooms",
+    description: "Clean, well-maintained facilities for players and spectators.",
     icon: "heart" as const,
+  },
+  {
+    id: "refreshments",
+    title: "Refreshments",
+    description: "Pre-match fuel and post-game recovery at the players' lounge.",
+    icon: "community" as const,
+  },
+  {
+    id: "security",
+    title: "Security",
+    description: "Professional security team on site around the clock.",
+    icon: "shield" as const,
+  },
+  {
+    id: "access",
+    title: "24-Hour Access",
+    description: "Book early morning training or late-night matches — we're always open.",
+    icon: "zap" as const,
+  },
+  {
+    id: "academy",
+    title: "Football Academy",
+    description: "UEFA-licensed coaching for ages 6–18 on the same premium pitch.",
+    icon: "pitch" as const,
   },
 ];
 
-export const aboutContent = {
-  eyebrow: "About Kidza Arena",
-  headline: "More than a pitch. It's where Kampala plays.",
-  paragraphs: [
-    "Born from a love of the beautiful game, Kidza Arena was built for players who refuse to settle for ordinary pitches. We set out to create Uganda's most complete football experience — from the first whistle to the final celebration.",
-    "Whether you're a weekend warrior, a rising academy star, or a corporate league chasing glory, you'll find a home here. Our standards match your ambition.",
+export const pitchExperience = {
+  eyebrow: "Pitch Experience",
+  headline: "Your game. Your format.",
+  description:
+    "From quick 5-a-side battles to full 7-a-side showdowns — configure the pitch for how you play.",
+  formats: [
+    {
+      id: "5aside",
+      title: "5-a-Side",
+      description: "Fast, technical, high-intensity. Perfect for after-work kickabouts.",
+      image:
+        "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=900&q=85&auto=format&fit=crop",
+    },
+    {
+      id: "6aside",
+      title: "6-a-Side",
+      description: "Balanced squads, more space to build play. Ideal for league matches.",
+      image:
+        "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=900&q=85&auto=format&fit=crop",
+    },
+    {
+      id: "7aside",
+      title: "7-a-Side",
+      description: "Full tactical battles on premium turf. Tournament-ready dimensions.",
+      image:
+        "https://images.unsplash.com/photo-1489944440615-453ea207c165?w=900&q=85&auto=format&fit=crop",
+    },
   ],
-  stats: [
-    { label: "Matches Hosted", value: "2,400+" },
-    { label: "Active Players", value: "8,500+" },
-    { label: "Academy Graduates", value: "320+" },
-    { label: "Years of Excellence", value: "6" },
+} as const;
+
+export const matchHighlights = {
+  eyebrow: "Live Match Highlights",
+  headline: "Feel the energy of match night",
+  matches: [
+    {
+      id: "1",
+      title: "Friday Night League Final",
+      score: "3 – 2",
+      tag: "League",
+      image:
+        "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=85&auto=format&fit=crop",
+    },
+    {
+      id: "2",
+      title: "Corporate Cup Semi-Final",
+      score: "1 – 1",
+      tag: "Tournament",
+      image:
+        "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=85&auto=format&fit=crop",
+    },
+    {
+      id: "3",
+      title: "Academy Showcase",
+      score: "4 – 0",
+      tag: "Academy",
+      image:
+        "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=85&auto=format&fit=crop",
+    },
   ],
-};
+} as const;
+
+export const galleryCategories = [
+  "All",
+  "Matches",
+  "Academy",
+  "Events",
+  "Facilities",
+] as const;
+
+export type GalleryCategory = (typeof galleryCategories)[number];
 
 export const galleryImages = [
   {
     id: "1",
-    src: "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=800&q=80&auto=format&fit=crop",
+    src: "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=1200&q=85&auto=format&fit=crop",
     alt: "Aerial view of football pitch at golden hour",
-    span: "col-span-2 row-span-2",
+    category: "Facilities" as const,
+    span: "lg:col-span-2 lg:row-span-2",
   },
   {
     id: "2",
-    src: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=600&q=80&auto=format&fit=crop",
+    src: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=900&q=85&auto=format&fit=crop",
     alt: "Players celebrating a goal",
-    span: "col-span-1 row-span-1",
+    category: "Matches" as const,
+    span: "",
   },
   {
     id: "3",
-    src: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=600&q=80&auto=format&fit=crop",
+    src: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=900&q=85&auto=format&fit=crop",
     alt: "Night match under floodlights",
-    span: "col-span-1 row-span-1",
+    category: "Matches" as const,
+    span: "",
   },
   {
     id: "4",
-    src: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=600&q=80&auto=format&fit=crop",
-    alt: "Close-up of football on premium turf",
-    span: "col-span-1 row-span-1",
+    src: "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=900&q=85&auto=format&fit=crop",
+    alt: "Academy training session",
+    category: "Academy" as const,
+    span: "",
   },
   {
     id: "5",
-    src: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=600&q=80&auto=format&fit=crop",
+    src: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=900&q=85&auto=format&fit=crop",
     alt: "Team huddle before kickoff",
-    span: "col-span-1 row-span-1",
+    category: "Events" as const,
+    span: "",
+  },
+  {
+    id: "6",
+    src: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=900&q=85&auto=format&fit=crop",
+    alt: "Close-up of football on premium turf",
+    category: "Facilities" as const,
+    span: "lg:col-span-2",
   },
 ];
 
-export const academyContent = {
-  eyebrow: "Kidza Academy",
-  headline: "Where tomorrow's stars learn today",
+export const academy = {
+  eyebrow: "Football Academy",
+  headline: "Train where champions are made",
   description:
-    "Structured coaching programmes for ages 6–18, led by UEFA-licensed coaches. Technical drills, tactical awareness, and the mindset of champions.",
-  highlights: [
-    "Weekly age-group sessions",
-    "Holiday intensive camps",
-    "Pathway to regional tournaments",
-    "Individual player assessments",
+    "Structured programmes for ages 6–18, led by UEFA-licensed coaches. Technical mastery, tactical intelligence, and the mindset to compete.",
+  schedule: [
+    { day: "Mon & Wed", time: "4:00 – 6:00 PM", group: "Ages 6–10" },
+    { day: "Tue & Thu", time: "4:00 – 6:00 PM", group: "Ages 11–14" },
+    { day: "Sat", time: "9:00 AM – 12:00 PM", group: "Ages 15–18" },
   ],
   image:
-    "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=900&q=80&auto=format&fit=crop",
-};
+    "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=1400&q=85&auto=format&fit=crop",
+  cta: "Join the Academy",
+} as const;
 
-export const tournamentContent = {
-  eyebrow: "Tournaments & Leagues",
-  headline: "Compete at the highest level in Kampala",
+export const tournaments = {
+  eyebrow: "Tournaments",
+  headline: "Compete at Kampala's finest arena",
   description:
-    "From corporate cups to youth championships, Kidza Arena hosts Kampala's most anticipated football events throughout the year.",
+    "Corporate cups, youth championships, and Friday night leagues — Kidza Arena hosts the events everyone talks about.",
   events: [
     {
       id: "1",
       name: "Kampala Corporate Cup",
       date: "Quarterly",
-      teams: "16 teams",
+      teams: "16 Teams",
+      prize: "UGX 5M",
     },
     {
       id: "2",
       name: "Kidza Youth Championship",
       date: "Aug – Sep",
-      teams: "24 teams",
+      teams: "24 Teams",
+      prize: "Trophies + Medals",
     },
     {
       id: "3",
       name: "Friday Night League",
       date: "Every Friday",
-      teams: "8 teams",
+      teams: "8 Teams",
+      prize: "Monthly Champions",
     },
   ],
   image:
-    "https://images.unsplash.com/photo-1489944440615-453ea207c165?w=900&q=80&auto=format&fit=crop",
-};
+    "https://images.unsplash.com/photo-1489944440615-453ea207c165?w=1400&q=85&auto=format&fit=crop",
+} as const;
 
 export const testimonials = [
   {
     id: "1",
     quote:
-      "I've played across East Africa — Kidza Arena is on another level. The pitch, the atmosphere, the organisation. This is what Kampala football needed.",
+      "I've played across East Africa — nothing in Kampala compares to Kidza Arena. The pitch, the vibe, the organisation. This is it.",
     author: "James Okello",
     role: "Captain, Kampala United FC",
     rating: 5,
+    photo:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=85&auto=format&fit=crop&crop=face",
   },
   {
     id: "2",
     quote:
-      "Our academy parents travel from across the city because nowhere else matches the coaching quality and facilities. Worth every shilling.",
+      "Our academy parents travel from across the city. The coaching quality and facilities are worth every shilling.",
     author: "Sarah Nambi",
     role: "Parent, Kidza Academy",
     rating: 5,
+    photo:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=85&auto=format&fit=crop&crop=face",
   },
   {
     id: "3",
     quote:
-      "We host our corporate league here every month. Professional setup, zero hassle, and our team actually looks forward to match day.",
+      "We host our corporate league here every month. Professional setup, zero hassle, and the team lives for match day.",
     author: "David Muwonge",
     role: "HR Director, TechCorp Uganda",
     rating: 5,
+    photo:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=85&auto=format&fit=crop&crop=face",
+  },
+  {
+    id: "4",
+    quote:
+      "Booked for my son's birthday — best party ever. The staff handled everything. Already planning the next one.",
+    author: "Grace Akello",
+    role: "Parent & Event Host",
+    rating: 5,
+    photo:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=85&auto=format&fit=crop&crop=face",
   },
 ];
 
@@ -181,106 +344,116 @@ export const pricingPlans = [
   {
     id: "casual",
     name: "Casual Play",
-    price: "UGX 150,000",
+    price: "UGX 150K",
     period: "per hour",
-    description: "Perfect for friendly matches and small groups.",
+    description: "Friendly matches and small groups.",
     features: [
       "Full pitch access",
       "Bibs & balls included",
-      "Changing room access",
-      "Floodlights (evening)",
+      "Changing rooms",
+      "Floodlights",
     ],
-    variant: "default" as const,
     highlighted: false,
   },
   {
     id: "team",
     name: "Team Package",
-    price: "UGX 520,000",
+    price: "UGX 520K",
     period: "per month",
-    description: "Weekly slot for committed squads and leagues.",
+    description: "Weekly slot for committed squads.",
     features: [
-      "4 sessions per month",
+      "4 sessions / month",
       "Priority booking",
-      "Dedicated storage locker",
-      "10% café discount",
-      "Match referee option",
+      "Storage locker",
+      "10% refreshments discount",
+      "Referee option",
     ],
-    variant: "pitch" as const,
     highlighted: true,
   },
   {
-    id: "academy",
-    name: "Academy Pass",
-    price: "UGX 280,000",
-    period: "per month",
-    description: "Structured training for developing players.",
+    id: "events",
+    name: "Events & Parties",
+    price: "Custom",
+    period: "quote",
+    description: "Birthdays, corporate, team building.",
     features: [
-      "2 coached sessions weekly",
-      "Skills assessment",
-      "Tournament entry priority",
-      "Parent progress reports",
+      "Dedicated event coordinator",
+      "Custom pitch setup",
+      "Refreshments package",
+      "Photography area",
     ],
-    variant: "community" as const,
     highlighted: false,
   },
 ];
 
+export const bookingCta = {
+  headline: "Ready to play on Kampala's finest pitch?",
+  subheadline: "Book your slot in minutes. Walk-ins welcome subject to availability.",
+  primaryCta: "Book Now",
+  backgroundImage:
+    "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=1920&q=85&auto=format&fit=crop",
+} as const;
+
 export const faqItems = [
-  {
-    id: "location",
-    question: "Where is Kidza Arena located?",
-    answer:
-      "We're in the heart of Kampala, easily accessible from Kololo, Nakawa, and the city centre. Exact directions are shared upon booking confirmation.",
-  },
   {
     id: "booking",
     question: "How do I book a pitch?",
     answer:
-      "Online booking is launching soon. For now, contact our team via phone or email to reserve your slot. Walk-ins are welcome subject to availability.",
+      "Online booking launches soon. Call or WhatsApp us to reserve your slot. Walk-ins welcome subject to availability.",
   },
   {
-    id: "capacity",
+    id: "formats",
     question: "What pitch formats are available?",
     answer:
-      "We offer full 11-a-side, 7-a-side, and 5-a-side configurations on our FIFA-standard turf. Let us know your format when booking.",
+      "5-a-side, 6-a-side, and 7-a-side on FIFA-standard artificial turf. Tell us your format when booking.",
   },
   {
     id: "equipment",
     question: "Is equipment provided?",
     answer:
-      "Match balls, bibs, and cones are included with every booking. Boots with moulded studs or astro trainers are recommended for our turf.",
+      "Match balls, bibs, and cones included. Astro trainers or moulded studs recommended.",
   },
   {
     id: "academy",
-    question: "How do I enrol in the academy?",
+    question: "How do I join the academy?",
     answer:
-      "Academy trials run every term. Register your interest through our contact page and our coaching team will arrange an assessment session.",
+      "Trials run every term. Contact us to register interest and schedule an assessment session.",
+  },
+  {
+    id: "events",
+    question: "Can I host a birthday or corporate event?",
+    answer:
+      "Yes — we offer full event packages including pitch hire, refreshments, and coordination.",
   },
   {
     id: "parking",
     question: "Is parking available?",
-    answer:
-      "Yes — free secure parking for players and spectators. Arrive 15 minutes early on tournament days for the best spots.",
+    answer: "Free secure parking on site. Arrive 15 minutes early on tournament days.",
   },
 ];
 
-export const ctaContent = {
-  headline: "Ready to play on Kampala's finest pitch?",
-  subheadline:
-    "Join thousands of players who've made Kidza Arena their home ground.",
-  primaryCta: "Get Started",
-  secondaryCta: "Contact Us",
-};
+export const location = {
+  eyebrow: "Find Us",
+  headline: "In the heart of Kampala",
+  description:
+    "Easy access from Kololo, Nakawa, and the city centre. Look for the green gates on Lugogo Bypass.",
+  mapEmbed:
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.752!2d32.582!3d0.313!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMMKwMTgnNDcuMCJOIDMywrAzNC'55LjYiRQ!5e0!3m2!1sen!2sug!4v1",
+  directions: "Get Directions",
+} as const;
 
-export const footerContent = {
-  address: "Plot 14, Lugogo Bypass, Kampala, Uganda",
-  phone: "+256 700 123 456",
-  email: "hello@kidzaarena.ug",
-  hours: "Mon – Sun: 6:00 AM – 11:00 PM",
-  social: [
-    { label: "Instagram", href: "https://instagram.com" },
-    { label: "Twitter", href: "https://twitter.com" },
-    { label: "Facebook", href: "https://facebook.com" },
+export const footerLinks = {
+  explore: [
+    { label: "Facilities", href: "#facilities" },
+    { label: "Academy", href: "#academy" },
+    { label: "Tournaments", href: "#tournaments" },
+    { label: "Gallery", href: "#gallery" },
+    { label: "Pricing", href: "#pricing" },
   ],
-};
+  company: [
+    { label: "About", href: "#why" },
+    { label: "Contact", href: "/contact" },
+    { label: "FAQ", href: "#faq" },
+    { label: "Location", href: "#location" },
+  ],
+} as const;
