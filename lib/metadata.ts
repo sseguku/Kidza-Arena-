@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { SiteConfig } from "@/types";
+import { contact } from "@/lib/constants/contact";
 
 export const siteConfig: SiteConfig = {
   name: "Kidza Arena",
@@ -7,6 +8,7 @@ export const siteConfig: SiteConfig = {
     "Book football pitches and sports facilities near you. Find, compare, and reserve the perfect pitch for your next match.",
   url: process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
   ogImage: "/og-image.png",
+  contact,
   links: {},
 };
 

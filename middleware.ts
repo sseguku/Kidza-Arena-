@@ -1,8 +1,24 @@
-import { type NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
-  return updateSession(request);
+  const { response, user } = await updateSession(request);
+  const { pathname } = request.nextUrl;
+
+  if (pathname.startsWith("/admin")) {
+    if (!user) {
+      const loginUrl = new URL("/login", request.url);
+      loginUrl.searchParams.set("next", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+  }
+
+  if (pathname === "/login" && user) {
+    const next = request.nextUrl.searchParams.get("next") ?? "/admin/dashboard";
+    return NextResponse.redirect(new URL(next, request.url));
+  }
+
+  return response;
 }
 
 export const config = {

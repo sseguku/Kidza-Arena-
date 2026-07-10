@@ -19,6 +19,7 @@ export { AcademySection } from "./academy";
 export { TournamentsSection } from "./tournaments";
 export { TestimonialsSection } from "./testimonials";
 export { PricingSection } from "./pricing";
+export { AvailabilityPreviewSection } from "./availability-preview";
 export { BookingCtaSection } from "./booking-cta";
 export { FaqSection } from "./faq";
 export { LocationSection } from "./location";

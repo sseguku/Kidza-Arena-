@@ -1,25 +1,30 @@
 import type { NavItem } from "@/types";
 
+/** Primary site navigation — anchor sections on the homepage, works from any route. */
 export const mainNavItems: NavItem[] = [
-  { title: "Home", href: "/" },
-  { title: "Pitches", href: "/pitches" },
-  { title: "Book", href: "/book" },
-  { title: "About", href: "/about" },
+  { title: "Why Us", href: "/#why" },
+  { title: "Facilities", href: "/#facilities" },
+  { title: "Academy", href: "/#academy" },
+  { title: "Gallery", href: "/#gallery" },
+  { title: "Pricing", href: "/#pricing" },
+  { title: "Availability", href: "/availability" },
 ];
 
 export const footerNavGroups = [
   {
-    title: "Platform",
+    title: "Explore",
     links: [
-      { title: "Find Pitches", href: "/pitches" },
-      { title: "Book a Pitch", href: "/book" },
-      { title: "How It Works", href: "/about" },
+      { title: "Why Kidza Arena", href: "/#why" },
+      { title: "Facilities", href: "/#facilities" },
+      { title: "Academy", href: "/#academy" },
+      { title: "Gallery", href: "/#gallery" },
+      { title: "Pricing", href: "/#pricing" },
     ],
   },
   {
-    title: "Company",
+    title: "Book",
     links: [
-      { title: "About Us", href: "/about" },
+      { title: "Book a Pitch", href: "/book" },
       { title: "Contact", href: "/contact" },
     ],
   },

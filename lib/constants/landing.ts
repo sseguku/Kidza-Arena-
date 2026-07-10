@@ -3,14 +3,12 @@
  * @module lib/constants/landing
  */
 
+import { contact } from "./contact";
+
 export const brand = {
   name: "Kidza Arena",
   tagline: "More Than a Pitch. It's an Adventure.",
-  phone: "+256 700 123 456",
-  whatsapp: "+256700123456",
-  email: "hello@kidzaarena.ug",
-  address: "Plot 14, Lugogo Bypass, Kampala, Uganda",
-  hours: "Open 24/7",
+  ...contact,
 } as const;
 
 export const hero = {
@@ -30,7 +28,7 @@ export const hero = {
     { id: "players", value: 1000, suffix: "+", label: "Happy Players" },
     { id: "turf", value: "Premium", label: "Artificial Turf" },
   ],
-  badges: ["FIFA-Standard Turf", "UEFA Coaches", "Secure Venue"],
+  badges: ["FIFA-Standard Turf", "FUFA Coaches", "Secure Venue"],
 } as const;
 
 export const trustedBy = {
@@ -342,33 +340,37 @@ export const testimonials = [
 
 export const pricingPlans = [
   {
-    id: "casual",
-    name: "Casual Play",
-    price: "UGX 150K",
-    period: "per hour",
-    description: "Friendly matches and small groups.",
+    id: "individual",
+    name: "Individual Play",
+    price: "UGX 10,000",
+    period: "per person per play",
+    description:
+      "Perfect for individuals who want to join a game or play casually.",
     features: [
-      "Full pitch access",
+      "Join open games & casual sessions",
+      "No full team required",
       "Bibs & balls included",
-      "Changing rooms",
-      "Floodlights",
+      "Flexible play times",
     ],
     highlighted: false,
+    priceEmphasis: true,
   },
   {
     id: "team",
     name: "Team Package",
-    price: "UGX 520K",
-    period: "per month",
-    description: "Weekly slot for committed squads.",
+    price: "UGX 80,000",
+    period: "per hour (Team Booking)",
+    description:
+      "Ideal for teams booking the entire pitch for training, friendly matches, or competitions.",
     features: [
-      "4 sessions / month",
-      "Priority booking",
-      "Storage locker",
-      "10% refreshments discount",
-      "Referee option",
+      "Exclusive full-pitch access",
+      "Bibs & balls included",
+      "Changing rooms & showers",
+      "Floodlights for evening slots",
+      "Referee option available",
     ],
     highlighted: true,
+    priceEmphasis: true,
   },
   {
     id: "events",
@@ -383,6 +385,7 @@ export const pricingPlans = [
       "Photography area",
     ],
     highlighted: false,
+    priceEmphasis: false,
   },
 ];
 
@@ -436,9 +439,8 @@ export const location = {
   eyebrow: "Find Us",
   headline: "In the heart of Kampala",
   description:
-    "Easy access from Kololo, Nakawa, and the city centre. Look for the green gates on Lugogo Bypass.",
-  mapEmbed:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.752!2d32.582!3d0.313!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMMKwMTgnNDcuMCJOIDMywrAzNC'55LjYiRQ!5e0!3m2!1sen!2sug!4v1",
+    "Find us alongside Lugujja - Busega Main Road, after Community Center. Easy access from Busega, Natete, and central Kampala.",
+  mapsUrl: contact.mapsUrl,
   directions: "Get Directions",
 } as const;
 

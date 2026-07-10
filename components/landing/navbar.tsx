@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
 import { LandingButton } from "@/components/landing/primitives/button";
 import { brand } from "@/lib/constants/landing";
+import { mainNavItems } from "@/lib/constants/navigation";
 import { cn } from "@/lib/utils";
 import {
   Sheet,
@@ -14,14 +15,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-
-const navLinks = [
-  { label: "Why Us", href: "#why" },
-  { label: "Facilities", href: "#facilities" },
-  { label: "Academy", href: "#academy" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Pricing", href: "#pricing" },
-];
 
 export function LandingNavbar() {
   const pathname = usePathname();
@@ -53,21 +46,16 @@ export function LandingNavbar() {
           <span className="flex size-12 items-center justify-center rounded-2xl bg-[var(--landing-green)] text-base font-black text-white shadow-glow-green transition-transform duration-300 group-hover:scale-105 lg:size-14 lg:text-lg">
             KA
           </span>
-          <span
-            className={cn(
-              "font-display text-xl font-bold tracking-tight lg:text-2xl",
-              overlay ? "text-white" : "text-white",
-            )}
-          >
+          <span className="font-display text-xl font-bold tracking-tight text-white lg:text-2xl">
             {brand.name}
           </span>
         </Link>
 
         <nav className="hidden items-center gap-10 lg:gap-12 md:flex">
-          {navLinks.map((link) => (
+          {mainNavItems.map((item) => (
             <Link
-              key={link.href}
-              href={link.href}
+              key={item.href}
+              href={item.href}
               className={cn(
                 "relative text-lg font-medium transition-colors duration-200 after:absolute after:-bottom-1 after:left-0 after:h-0.5 after:w-0 after:bg-gold after:transition-all hover:after:w-full",
                 overlay
@@ -75,7 +63,7 @@ export function LandingNavbar() {
                   : "text-white/75 hover:text-white",
               )}
             >
-              {link.label}
+              {item.title}
             </Link>
           ))}
         </nav>
@@ -111,13 +99,13 @@ export function LandingNavbar() {
               </SheetTitle>
             </SheetHeader>
             <nav className="mt-10 flex flex-col gap-6">
-              {navLinks.map((link) => (
+              {mainNavItems.map((item) => (
                 <Link
-                  key={link.href}
-                  href={link.href}
+                  key={item.href}
+                  href={item.href}
                   className="text-xl font-medium text-white/85 hover:text-gold"
                 >
-                  {link.label}
+                  {item.title}
                 </Link>
               ))}
             </nav>

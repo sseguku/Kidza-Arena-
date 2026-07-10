@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/landing/primitives/section";
 import { LandingButton } from "@/components/landing/primitives/button";
 import { brand, footerLinks } from "@/lib/constants/landing";
+import { contact } from "@/lib/constants/contact";
 
 export function LandingFooter() {
   const year = new Date().getFullYear();
@@ -74,15 +75,15 @@ export function LandingFooter() {
           <Reveal delay={0.15}>
             <h3 className="font-display text-xl font-bold text-white">Contact</h3>
             <ul className="mt-6 space-y-4 text-lg text-[var(--landing-muted)]">
-              <li>{brand.address}</li>
+              <li>{contact.address}</li>
               <li>
-                <a href={`tel:${brand.phone.replace(/\s/g, "")}`} className="hover:text-white">
-                  {brand.phone}
+                <a href={contact.phoneTel} className="hover:text-white">
+                  {contact.phone}
                 </a>
               </li>
               <li>
-                <a href={`mailto:${brand.email}`} className="hover:text-white">
-                  {brand.email}
+                <a href={contact.emailMailto} className="hover:text-white">
+                  {contact.email}
                 </a>
               </li>
             </ul>

@@ -2,12 +2,10 @@ import Image from "next/image";
 import { MessageCircle, Phone } from "lucide-react";
 import { LandingButton } from "@/components/landing/primitives/button";
 import { Reveal, SectionShell } from "@/components/landing/primitives/section";
-import { bookingCta, brand } from "@/lib/constants/landing";
+import { bookingCta } from "@/lib/constants/landing";
+import { contact } from "@/lib/constants/contact";
 
 export function BookingCtaSection() {
-  const whatsappUrl = `https://wa.me/${brand.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent("Hi Kidza Arena, I'd like to book a pitch.")}`;
-  const telUrl = `tel:${brand.phone.replace(/\s/g, "")}`;
-
   return (
     <SectionShell id="book" className="!py-0">
       <Reveal>
@@ -42,14 +40,14 @@ export function BookingCtaSection() {
 
             <div className="mt-12 flex flex-col items-center justify-center gap-6 sm:flex-row lg:mt-16 lg:gap-10">
               <a
-                href={telUrl}
+                href={contact.phoneTel}
                 className="glass-panel-strong inline-flex items-center gap-3 rounded-full px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:scale-[1.03] hover:border-gold/30"
               >
                 <Phone className="size-5 text-gold" />
-                {brand.phone}
+                {contact.phone}
               </a>
               <a
-                href={whatsappUrl}
+                href={contact.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 rounded-full bg-[#25D366] px-8 py-4 text-lg font-bold text-white transition-all duration-300 hover:scale-[1.03] hover:brightness-110"

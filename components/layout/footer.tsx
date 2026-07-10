@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { footerNavGroups } from "@/lib/constants/navigation";
+import { contact } from "@/lib/constants/contact";
 import { siteConfig } from "@/lib/metadata";
 
 export function Footer() {
@@ -14,11 +15,26 @@ export function Footer() {
               <span className="flex size-9 items-center justify-center rounded-lg bg-gradient-pitch text-sm font-bold text-pitch-foreground shadow-sm">
                 KA
               </span>
-              <span className="font-display text-lg font-semibold">{siteConfig.name}</span>
+              <span className="font-display text-lg font-semibold">
+                {siteConfig.name}
+              </span>
             </Link>
             <p className="mt-4 max-w-xs text-body-sm text-muted-foreground">
               {siteConfig.description}
             </p>
+            <ul className="mt-6 space-y-2 text-sm text-muted-foreground">
+              <li>{contact.address}</li>
+              <li>
+                <a href={contact.phoneTel} className="hover:text-primary">
+                  {contact.phone}
+                </a>
+              </li>
+              <li>
+                <a href={contact.emailMailto} className="hover:text-primary">
+                  {contact.email}
+                </a>
+              </li>
+            </ul>
           </div>
 
           {footerNavGroups.map((group) => (

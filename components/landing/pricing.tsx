@@ -36,10 +36,17 @@ export function PricingSection() {
               <h3 className="text-landing-card">{plan.name}</h3>
               <p className="mt-2 text-[var(--landing-muted)]">{plan.description}</p>
               <div className="mt-8">
-                <span className="font-display text-4xl font-bold text-white lg:text-5xl">
+                <span
+                  className={cn(
+                    "font-display font-bold text-white",
+                    plan.priceEmphasis
+                      ? "text-5xl tracking-tight lg:text-6xl"
+                      : "text-4xl lg:text-5xl",
+                  )}
+                >
                   {plan.price}
                 </span>
-                <span className="ml-2 text-lg text-[var(--landing-muted)]">
+                <span className="mt-2 block text-base text-[var(--landing-muted)] lg:text-lg">
                   / {plan.period}
                 </span>
               </div>

@@ -2,11 +2,10 @@ import { Clock, Mail, MapPin, Navigation, Phone } from "lucide-react";
 import { GlassCard } from "@/components/landing/primitives/glass-card";
 import { LandingButton } from "@/components/landing/primitives/button";
 import { Reveal, SectionHeader, SectionShell } from "@/components/landing/primitives/section";
-import { brand, location } from "@/lib/constants/landing";
+import { location } from "@/lib/constants/landing";
+import { contact } from "@/lib/constants/contact";
 
 export function LocationSection() {
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(brand.address)}`;
-
   return (
     <SectionShell id="location">
       <Reveal>
@@ -51,7 +50,7 @@ export function LocationSection() {
                   <div>
                     <p className="font-semibold text-white">Address</p>
                     <p className="mt-1 text-lg text-[var(--landing-muted)]">
-                      {brand.address}
+                      {contact.address}
                     </p>
                   </div>
                 </li>
@@ -60,10 +59,10 @@ export function LocationSection() {
                   <div>
                     <p className="font-semibold text-white">Phone</p>
                     <a
-                      href={`tel:${brand.phone.replace(/\s/g, "")}`}
+                      href={contact.phoneTel}
                       className="mt-1 block text-lg text-[var(--landing-muted)] hover:text-white"
                     >
-                      {brand.phone}
+                      {contact.phone}
                     </a>
                   </div>
                 </li>
@@ -72,10 +71,10 @@ export function LocationSection() {
                   <div>
                     <p className="font-semibold text-white">Email</p>
                     <a
-                      href={`mailto:${brand.email}`}
+                      href={contact.emailMailto}
                       className="mt-1 block text-lg text-[var(--landing-muted)] hover:text-white"
                     >
-                      {brand.email}
+                      {contact.email}
                     </a>
                   </div>
                 </li>
@@ -84,7 +83,7 @@ export function LocationSection() {
                   <div>
                     <p className="font-semibold text-white">Hours</p>
                     <p className="mt-1 text-lg text-[var(--landing-muted)]">
-                      {brand.hours}
+                      {contact.hours}
                     </p>
                   </div>
                 </li>
@@ -92,7 +91,7 @@ export function LocationSection() {
             </GlassCard>
 
             <LandingButton
-              href={mapsUrl}
+              href={contact.mapsUrl}
               variant="primary"
               size="lg"
               className="w-full sm:w-auto"

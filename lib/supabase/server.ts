@@ -1,20 +1,17 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import type { Database } from "@/types/database";
+import { getSupabaseEnv } from "@/lib/supabase/env";
 
-export async function createSupabaseServerComponentClient() {
+/**
+ * Server Supabase client — cookie-based auth for Server Components & Actions.
+ * @see https://supabase.com/docs/guides/getting-started/quickstarts/nextjs
+ */
+export async function createClient() {
   const cookieStore = await cookies();
+  const { url, key } = getSupabaseEnv();
 
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!url || !anonKey) {
-    throw new Error(
-      "Missing Supabase environment variables. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local",
-    );
-  }
-
-  return createServerClient<Database>(url, anonKey, {
+  return createServerClient<Database>(url, key, {
     cookies: {
       getAll() {
         return cookieStore.getAll();
@@ -31,3 +28,6 @@ export async function createSupabaseServerComponentClient() {
     },
   });
 }
+
+/** @deprecated Use `createClient` — kept for existing imports */
+export const createSupabaseServerComponentClient = createClient;

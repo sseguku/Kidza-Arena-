@@ -13,9 +13,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.4.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@supabase/ssr": "^0.12.0",
-    "@supabase/supabase-js": "^2.49.8",
+    "@supabase/supabase-js": "^2.110.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.16.0",
@@ -24,7 +25,9 @@
     "radix-ui": "^1.6.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "tailwind-merge": "^3.3.0"
+    "react-hook-form": "^7.80.0",
+    "tailwind-merge": "^3.3.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",

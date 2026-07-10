@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import {
   AcademySection,
+  AvailabilityPreviewSection,
   BookingCtaSection,
   FacilitiesSection,
   FaqSection,
@@ -39,6 +40,7 @@ export default function HomePage() {
       <TournamentsSection />
       <TestimonialsSection />
       <PricingSection />
+      <AvailabilityPreviewSection />
       <BookingCtaSection />
       <FaqSection />
       <LocationSection />
