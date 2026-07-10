@@ -21,9 +21,10 @@ export function getLocalBusinessJsonLd() {
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: 0.298,
-      longitude: 32.475,
+      latitude: contact.mapsCoordinates.latitude,
+      longitude: contact.mapsCoordinates.longitude,
     },
+    hasMap: contact.mapsUrl,
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: [

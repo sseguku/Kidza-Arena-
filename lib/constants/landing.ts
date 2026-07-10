@@ -149,15 +149,13 @@ export const pitchExperience = {
       id: "6aside",
       title: "6-a-Side",
       description: "Balanced squads, more space to build play. Ideal for league matches.",
-      image:
-        "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=900&q=85&auto=format&fit=crop",
+      image: "/images/pitch-experience/6-aside.png",
     },
     {
       id: "7aside",
       title: "7-a-Side",
       description: "Full tactical battles on premium turf. Tournament-ready dimensions.",
-      image:
-        "https://images.unsplash.com/photo-1489944440615-453ea207c165?w=900&q=85&auto=format&fit=crop",
+      image: "/images/pitch-experience/7-aside.png",
     },
   ],
 } as const;
@@ -171,24 +169,21 @@ export const matchHighlights = {
       title: "Friday Night League Final",
       score: "3 – 2",
       tag: "League",
-      image:
-        "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=85&auto=format&fit=crop",
+      image: "/images/match-highlights/feel_energy_1.png",
     },
     {
       id: "2",
       title: "Corporate Cup Semi-Final",
       score: "1 – 1",
       tag: "Tournament",
-      image:
-        "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=85&auto=format&fit=crop",
+      image: "/images/match-highlights/feel_energy_2.png",
     },
     {
       id: "3",
       title: "Academy Showcase",
       score: "4 – 0",
       tag: "Academy",
-      image:
-        "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=85&auto=format&fit=crop",
+      image: "/images/match-highlights/feel_energy_3.png",
     },
   ],
 } as const;

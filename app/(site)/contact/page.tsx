@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Navigation } from "lucide-react";
 import { ContactDetails } from "@/components/shared/contact-details";
+import { MapEmbed } from "@/components/shared/map-embed";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -48,17 +49,9 @@ export default function ContactPage() {
             <CardDescription>{contact.address}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div
-              className="relative min-h-[220px] overflow-hidden rounded-2xl bg-muted"
-              style={{
-                backgroundImage:
-                  'url("https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=85&auto=format&fit=crop")',
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-              role="img"
-              aria-label="Map location near Kidza Arena, Kampala"
-            />
+            <div className="relative min-h-[280px] overflow-hidden rounded-2xl bg-muted">
+              <MapEmbed className="min-h-[280px]" />
+            </div>
             <Button asChild className="w-full" size="lg">
               <Link
                 href={contact.mapsUrl}

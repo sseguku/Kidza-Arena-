@@ -2,6 +2,7 @@ import { Clock, Mail, MapPin, Navigation, Phone } from "lucide-react";
 import { GlassCard } from "@/components/landing/primitives/glass-card";
 import { LandingButton } from "@/components/landing/primitives/button";
 import { Reveal, SectionHeader, SectionShell } from "@/components/landing/primitives/section";
+import { MapEmbed } from "@/components/shared/map-embed";
 import { location } from "@/lib/constants/landing";
 import { contact } from "@/lib/constants/contact";
 
@@ -19,23 +20,18 @@ export function LocationSection() {
       <div className="mt-16 grid gap-8 lg:mt-24 lg:grid-cols-2 lg:gap-12">
         <Reveal direction="left">
           <GlassCard strong className="relative min-h-[320px] overflow-hidden p-0 lg:min-h-[480px]">
-            <div
-              className="absolute inset-0 bg-[#111820]"
-              style={{
-                backgroundImage: `url("https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=85&auto=format&fit=crop")`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-              aria-hidden
-            />
-            <div className="absolute inset-0 bg-[#0B0F14]/50" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="glass-panel-strong rounded-2xl p-6 text-center">
-                <MapPin className="mx-auto size-10 text-gold" />
-                <p className="mt-3 font-display text-xl font-bold text-white">
-                  Kidza Arena
-                </p>
-                <p className="mt-1 text-[var(--landing-muted)]">Kampala, Uganda</p>
+            <MapEmbed className="absolute inset-0 min-h-[320px] lg:min-h-[480px]" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#0B0F14]/90 via-[#0B0F14]/40 to-transparent p-6">
+              <div className="flex items-center gap-3">
+                <MapPin className="size-6 shrink-0 text-gold" />
+                <div>
+                  <p className="font-display text-lg font-bold text-white">
+                    {contact.mapsPlaceName}
+                  </p>
+                  <p className="text-sm text-[var(--landing-muted)]">
+                    Kampala, Uganda
+                  </p>
+                </div>
               </div>
             </div>
           </GlassCard>
