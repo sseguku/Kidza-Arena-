@@ -222,7 +222,7 @@ export const galleryImages = [
   },
   {
     id: "7",
-    src: "/images/gallery/matches/match_3.png",
+    src: "/images/gallery/matches/match_3.jpg",
     alt: "Competitive football match at Kidza Arena",
     category: "Matches" as const,
     span: "",
@@ -243,8 +243,8 @@ export const galleryImages = [
   },
   {
     id: "5",
-    src: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=900&q=85&auto=format&fit=crop",
-    alt: "Team huddle before kickoff",
+    src: "/images/gallery/events/event_1.jpg",
+    alt: "Tournament action at Kidza Arena",
     category: "Events" as const,
     span: "",
   },
@@ -267,8 +267,7 @@ export const academy = {
     { day: "Tue & Thu", time: "4:00 – 6:00 PM", group: "Ages 11–14" },
     { day: "Sat", time: "9:00 AM – 12:00 PM", group: "Ages 15–18" },
   ],
-  image:
-    "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=1400&q=85&auto=format&fit=crop",
+  image: "/images/gallery/matches/match_3.jpg",
   cta: "Join the Academy",
 } as const;
 
@@ -300,8 +299,7 @@ export const tournaments = {
       prize: "Monthly Champions",
     },
   ],
-  image:
-    "https://images.unsplash.com/photo-1489944440615-453ea207c165?w=1400&q=85&auto=format&fit=crop",
+  image: "/images/tournaments/tournament_1.jpg",
 } as const;
 
 export const testimonials = [
@@ -313,7 +311,7 @@ export const testimonials = [
     role: "Captain, Kampala United FC",
     rating: 5,
     photo:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=85&auto=format&fit=crop&crop=face",
+      "https://images.unsplash.com/photo-1624893383608-c4a3709702d0?w=200&q=85&auto=format&fit=crop&crop=face",
   },
   {
     id: "2",
@@ -323,7 +321,7 @@ export const testimonials = [
     role: "Parent, Kidza Academy",
     rating: 5,
     photo:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=85&auto=format&fit=crop&crop=face",
+      "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=200&q=85&auto=format&fit=crop&crop=face",
   },
   {
     id: "3",
@@ -333,7 +331,7 @@ export const testimonials = [
     role: "HR Director, TechCorp Uganda",
     rating: 5,
     photo:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=85&auto=format&fit=crop&crop=face",
+      "https://images.unsplash.com/photo-1607080033776-63b372e37828?w=200&q=85&auto=format&fit=crop&crop=face",
   },
   {
     id: "4",
@@ -343,7 +341,7 @@ export const testimonials = [
     role: "Parent & Event Host",
     rating: 5,
     photo:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=85&auto=format&fit=crop&crop=face",
+      "https://images.unsplash.com/photo-1594381898411-0e705b7ed8da?w=200&q=85&auto=format&fit=crop&crop=face",
   },
 ];
 
