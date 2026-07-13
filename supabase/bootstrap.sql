@@ -35,6 +35,12 @@ create index if not exists bookings_status_idx on public.bookings (status);
 
 alter table public.bookings enable row level security;
 
+drop policy if exists "Anyone can create bookings" on public.bookings;
+drop policy if exists "Service role full access" on public.bookings;
+drop policy if exists "Admins can read bookings" on public.bookings;
+drop policy if exists "Admins can update bookings" on public.bookings;
+drop policy if exists "Public read bookings for availability" on public.bookings;
+
 -- Public can insert bookings (no auth required for now)
 create policy "Anyone can create bookings"
   on public.bookings for insert
@@ -60,6 +66,10 @@ create table if not exists public.profiles (
 );
 
 alter table public.profiles enable row level security;
+
+drop policy if exists "Users can read own profile" on public.profiles;
+drop policy if exists "Admins can read all profiles" on public.profiles;
+drop policy if exists "Admins can update profiles" on public.profiles;
 
 create policy "Users can read own profile"
   on public.profiles for select
@@ -134,6 +144,9 @@ create table if not exists public.site_settings (
 
 alter table public.site_settings enable row level security;
 
+drop policy if exists "Anyone can read site settings" on public.site_settings;
+drop policy if exists "Admins can manage site settings" on public.site_settings;
+
 create policy "Anyone can read site settings"
   on public.site_settings for select
   using (true);
@@ -167,6 +180,9 @@ create table if not exists public.media_assets (
 
 alter table public.media_assets enable row level security;
 
+drop policy if exists "Public read published media" on public.media_assets;
+drop policy if exists "Admins manage media" on public.media_assets;
+
 create policy "Public read published media"
   on public.media_assets for select
   using (is_published = true);
@@ -194,6 +210,9 @@ create table if not exists public.academy_programs (
 );
 
 alter table public.academy_programs enable row level security;
+
+drop policy if exists "Public read active academy programs" on public.academy_programs;
+drop policy if exists "Admins manage academy programs" on public.academy_programs;
 
 create policy "Public read active academy programs"
   on public.academy_programs for select
@@ -225,6 +244,9 @@ create table if not exists public.tournaments (
 );
 
 alter table public.tournaments enable row level security;
+
+drop policy if exists "Public read published tournaments" on public.tournaments;
+drop policy if exists "Admins manage tournaments" on public.tournaments;
 
 create policy "Public read published tournaments"
   on public.tournaments for select
@@ -289,9 +311,28 @@ create index if not exists recurring_bookings_dow_idx on public.recurring_bookin
 create index if not exists blocked_slots_date_idx on public.blocked_slots (block_date) where active = true;
 create index if not exists recurring_overrides_date_idx on public.recurring_overrides (override_date);
 
+create unique index if not exists recurring_bookings_unique_weekly_slot
+  on public.recurring_bookings (day_of_week, start_time, end_time)
+  where active = true;
+
+create unique index if not exists blocked_slots_unique_date_slot
+  on public.blocked_slots (block_date, start_time, end_time)
+  where active = true and is_recurring = false;
+
+create unique index if not exists blocked_slots_unique_recurring_slot
+  on public.blocked_slots (day_of_week, start_time, end_time)
+  where active = true and is_recurring = true;
+
 alter table public.recurring_bookings enable row level security;
 alter table public.blocked_slots enable row level security;
 alter table public.recurring_overrides enable row level security;
+
+drop policy if exists "Public read active recurring bookings" on public.recurring_bookings;
+drop policy if exists "Public read active blocked slots" on public.blocked_slots;
+drop policy if exists "Public read recurring overrides" on public.recurring_overrides;
+drop policy if exists "Admins manage recurring bookings" on public.recurring_bookings;
+drop policy if exists "Admins manage blocked slots" on public.blocked_slots;
+drop policy if exists "Admins manage recurring overrides" on public.recurring_overrides;
 
 -- Public read active recurring/blocks for availability
 create policy "Public read active recurring bookings"
@@ -318,32 +359,43 @@ create policy "Admins manage recurring overrides"
     exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
   );
 
--- Seed recurring bookings (day_of_week: 0=Sun, 1=Mon … 6=Sat)
-insert into public.recurring_bookings (team_name, booking_type, day_of_week, start_time, end_time, duration_minutes) values
-  ('Team One', 'team', 1, '21:00', '22:00', 60),
-  ('Team One', 'team', 2, '21:00', '22:00', 60),
-  ('Team One', 'team', 3, '21:00', '22:00', 60),
-  ('Team One', 'team', 4, '21:00', '22:00', 60),
-  ('Team Davie', 'team', 2, '19:00', '20:00', 60),
-  ('Team Davie', 'team', 4, '20:00', '21:00', 60),
-  ('Kakoolasi FC', 'team', 1, '22:00', '23:00', 60),
-  ('Kakoolasi FC', 'team', 3, '20:00', '21:00', 60),
-  ('Kakoolasi FC', 'team', 6, '21:00', '22:00', 60),
-  ('Team Suubi', 'team', 5, '20:00', '21:30', 90),
-  ('Hapi Pipo', 'team', 5, '18:00', '19:00', 60)
-on conflict do nothing;
+-- Seed recurring bookings (day_of_week: 0=Sun, 1=Mon … 6=Sat) — skip if slot already exists
+insert into public.recurring_bookings (team_name, booking_type, day_of_week, start_time, end_time, duration_minutes)
+select v.team_name, v.booking_type, v.day_of_week, v.start_time::time, v.end_time::time, v.duration_minutes
+from (
+  values
+    ('Team One', 'team', 1, '21:00', '22:00', 60),
+    ('Team One', 'team', 2, '21:00', '22:00', 60),
+    ('Team One', 'team', 3, '21:00', '22:00', 60),
+    ('Team One', 'team', 4, '21:00', '22:00', 60),
+    ('Team Davie', 'team', 2, '19:00', '20:00', 60),
+    ('Team Davie', 'team', 4, '20:00', '21:00', 60),
+    ('Kakoolasi FC', 'team', 1, '22:00', '23:00', 60),
+    ('Kakoolasi FC', 'team', 3, '20:00', '21:00', 60),
+    ('Kakoolasi FC', 'team', 6, '21:00', '22:00', 60),
+    ('Team Suubi', 'team', 5, '20:00', '21:30', 90),
+    ('Hapi Pipo', 'team', 5, '18:00', '19:00', 60)
+) as v(team_name, booking_type, day_of_week, start_time, end_time, duration_minutes)
+where not exists (
+  select 1
+  from public.recurring_bookings rb
+  where rb.day_of_week = v.day_of_week
+    and rb.start_time = v.start_time::time
+    and rb.end_time = v.end_time::time
+    and rb.active = true
+);
 -- Allow publishable (anon) key to read bookings for pitch availability
 -- @see https://supabase.com/docs/guides/getting-started/quickstarts/nextjs
 
-grant select on public.bookings to anon;
-grant select on public.recurring_bookings to anon;
-grant select on public.blocked_slots to anon;
-grant select on public.recurring_overrides to anon;
-grant select on public.site_settings to anon;
+grant select on public.bookings to anon, authenticated;
+grant select on public.recurring_bookings to anon, authenticated;
+grant select on public.blocked_slots to anon, authenticated;
+grant select on public.recurring_overrides to anon, authenticated;
+grant select on public.site_settings to anon, authenticated;
 
+drop policy if exists "Public read bookings for availability" on public.bookings;
 create policy "Public read bookings for availability"
   on public.bookings for select
-  to anon
   using (true);
 -- Secure public booking submission (returns id without exposing all booking rows to anon)
 

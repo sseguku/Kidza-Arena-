@@ -64,11 +64,18 @@ export function StepSchedule({
 
   const sessionPeriod = startTime ? getSessionPeriod(startTime) : null;
 
-  const price = calculateBookingPrice({
-    bookingType,
-    durationHours,
-    playerCount: Math.max(1, playerCount),
-  });
+  const price =
+    bookingType === "individual"
+      ? calculateBookingPrice({
+          bookingType,
+          durationHours,
+          playerCount: 1,
+        })
+      : calculateBookingPrice({
+          bookingType,
+          durationHours,
+          playerCount: Math.max(1, playerCount),
+        });
 
   return (
     <div className="space-y-6">
@@ -252,7 +259,7 @@ export function StepSchedule({
           amount={price}
           label={
             bookingType === "individual"
-              ? "Price (per person × players)"
+              ? "Price per person"
               : "Price (hourly rate × duration)"
           }
         />

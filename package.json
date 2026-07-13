@@ -11,7 +11,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
-    "db:migrate": "node scripts/apply-migrations.mjs"
+    "db:migrate": "node scripts/apply-migrations.mjs",
+    "grant-admin": "node scripts/grant-admin.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",

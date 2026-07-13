@@ -96,7 +96,7 @@ export function BookingWizard() {
     updateField("bookingType", type);
     if (type === "individual") {
       form.setValue("durationHours", 1);
-      form.setValue("playerCount", Math.max(1, form.getValues("playerCount")));
+      form.setValue("playerCount", 1);
     } else {
       form.setValue("playerCount", Math.max(5, form.getValues("playerCount")));
     }

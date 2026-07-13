@@ -1,6 +1,5 @@
 "use server";
 
-import { isDateInPast } from "@/lib/booking/availability";
 import {
   applyAvailabilityFilters,
   getAvailabilityPreview,
@@ -29,12 +28,13 @@ export async function getDayAvailabilityAction(
   date: string,
   filters?: AvailabilityFilters,
 ) {
-  if (!date || isDateInPast(date)) {
+  if (!date) {
     return { slots: [] as PublicSlotDetail[], error: "Invalid date" };
   }
-  let slots = await getOccupiedSlotsForDate(date);
+  let slots = await getOccupiedSlotsForDate(date, { includePast: true });
   if (filters) {
-    slots = applyAvailabilityFilters(slots, filters);
+    const { dayOfWeek: _dayOfWeek, date: _date, ...dayFilters } = filters;
+    slots = applyAvailabilityFilters(slots, dayFilters);
   }
   return { slots: slots.map(toPublicSlotDetail) };
 }

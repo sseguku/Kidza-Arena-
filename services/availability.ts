@@ -1,6 +1,8 @@
 import { cache } from "react";
-import { createClient } from "@/lib/supabase/server";
+import { unstable_noStore as noStore } from "next/cache";
+import { getAvailabilityReadClient } from "@/lib/supabase/availability-data";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { addDaysToDate } from "@/lib/booking/dates";
 import {
   getDayOfWeek,
   timeToMinutes,
@@ -26,7 +28,8 @@ import type { BookingRecord } from "@/types/booking";
 
 async function getClient() {
   if (!isSupabaseConfigured()) return null;
-  return createClient();
+  noStore();
+  return getAvailabilityReadClient();
 }
 
 function getErrorMessage(error: unknown): string {
@@ -70,6 +73,11 @@ async function safeQuery<T>(
 
 function normalizeTime(t: string): string {
   return t.slice(0, 5);
+}
+
+function normalizeDate(value: string | null | undefined): string | null {
+  if (!value) return null;
+  return value.slice(0, 10);
 }
 
 function bookingToOccupied(b: BookingRecord): OccupiedSlot {
@@ -136,16 +144,36 @@ function blockToOccupied(b: BlockedSlot, date: string): OccupiedSlot {
   };
 }
 
-function mergeOverlapping(slots: OccupiedSlot[]): OccupiedSlot[] {
-  return slots.sort(
+function slotDedupeKey(slot: OccupiedSlot): string {
+  return [
+    slot.date,
+    slot.startTime,
+    slot.endTime,
+    slot.teamName,
+    slot.status,
+    slot.source,
+  ].join("|");
+}
+
+function dedupeOccupiedSlots(slots: OccupiedSlot[]): OccupiedSlot[] {
+  const seen = new Map<string, OccupiedSlot>();
+  for (const slot of slots) {
+    const key = slotDedupeKey(slot);
+    if (!seen.has(key)) seen.set(key, slot);
+  }
+  return Array.from(seen.values()).sort(
     (a, b) =>
       a.startTime.localeCompare(b.startTime) ||
       a.teamName.localeCompare(b.teamName),
   );
 }
 
+function mergeOverlapping(slots: OccupiedSlot[]): OccupiedSlot[] {
+  return dedupeOccupiedSlots(slots);
+}
+
 export const fetchRecurringBookings = cache(async (): Promise<RecurringBooking[]> => {
-  return safeQuery(
+  const rows = await safeQuery(
     "fetchRecurringBookings",
     (supabase) =>
       supabase
@@ -154,14 +182,30 @@ export const fetchRecurringBookings = cache(async (): Promise<RecurringBooking[]
         .eq("active", true),
     [] as RecurringBooking[],
   );
+
+  const seen = new Map<string, RecurringBooking>();
+  for (const row of rows) {
+    const key = `${row.day_of_week}|${row.start_time}|${row.end_time}`;
+    if (!seen.has(key)) seen.set(key, row);
+  }
+  return Array.from(seen.values());
 });
 
 export const fetchBlockedSlots = cache(async (): Promise<BlockedSlot[]> => {
-  return safeQuery(
+  const rows = await safeQuery(
     "fetchBlockedSlots",
     (supabase) => supabase.from("blocked_slots").select("*").eq("active", true),
     [] as BlockedSlot[],
   );
+
+  const seen = new Map<string, BlockedSlot>();
+  for (const row of rows) {
+    const key = row.is_recurring
+      ? `r|${row.day_of_week}|${row.start_time}|${row.end_time}`
+      : `d|${row.block_date}|${row.start_time}|${row.end_time}`;
+    if (!seen.has(key)) seen.set(key, row);
+  }
+  return Array.from(seen.values());
 });
 
 export const fetchRecurringOverrides = cache(
@@ -198,9 +242,9 @@ async function fetchBookingsForRange(
 
 export async function getOccupiedSlotsForDate(
   date: string,
-  options?: { includeCancelled?: boolean },
+  options?: { includeCancelled?: boolean; includePast?: boolean },
 ): Promise<OccupiedSlot[]> {
-  if (!date || isDateInPast(date)) return [];
+  if (!date || (!options?.includePast && isDateInPast(date))) return [];
 
   try {
     const dow = getDayOfWeek(date);
@@ -234,7 +278,7 @@ export async function getOccupiedSlotsForDate(
     for (const b of blocks) {
       if (b.is_recurring && b.day_of_week === dow) {
         slots.push(blockToOccupied(b, date));
-      } else if (b.block_date === date) {
+      } else if (normalizeDate(b.block_date) === date) {
         slots.push(blockToOccupied(b, date));
       }
     }
@@ -264,10 +308,6 @@ export const getMonthAvailability = cache(
 
       for (let day = 1; day <= lastDay; day++) {
         const date = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-        if (isDateInPast(date)) {
-          slotsByDate[date] = [];
-          continue;
-        }
 
         const dow = getDayOfWeek(date);
         const dayOverrides = overrides.filter((o) => o.override_date === date);
@@ -277,8 +317,10 @@ export const getMonthAvailability = cache(
 
         const daySlots: OccupiedSlot[] = [];
 
-        for (const b of bookings.filter((bk) => bk.booking_date === date)) {
-          daySlots.push(bookingToOccupied(b));
+        if (!isDateInPast(date)) {
+          for (const b of bookings.filter((bk) => bk.booking_date === date)) {
+            daySlots.push(bookingToOccupied(b));
+          }
         }
 
         for (const r of recurring) {
@@ -291,7 +333,7 @@ export const getMonthAvailability = cache(
         for (const bl of blocks) {
           if (bl.is_recurring && bl.day_of_week === dow) {
             daySlots.push(blockToOccupied(bl, date));
-          } else if (bl.block_date === date) {
+          } else if (normalizeDate(bl.block_date) === date) {
             daySlots.push(blockToOccupied(bl, date));
           }
         }
@@ -473,13 +515,7 @@ export async function suggestNextAvailableSlots(
 }
 
 export async function getWeekSlots(weekStartDate: string): Promise<OccupiedSlot[]> {
-  const start = new Date(weekStartDate);
-  const end = new Date(start);
-  end.setDate(end.getDate() + 6);
-  return getOccupiedSlotsForRange(
-    weekStartDate,
-    end.toISOString().split("T")[0]!,
-  );
+  return getOccupiedSlotsForRange(weekStartDate, addDaysToDate(weekStartDate, 6));
 }
 
 export function getHourlyGrid(): string[] {

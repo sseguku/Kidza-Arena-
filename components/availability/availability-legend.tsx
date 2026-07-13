@@ -5,6 +5,7 @@ export function AvailabilityLegend({ className }: { className?: string }) {
   const items: SlotStatus[] = [
     "available",
     "booked",
+    "recurring",
     "pending",
     "blocked",
     "cancelled",

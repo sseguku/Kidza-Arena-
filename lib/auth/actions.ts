@@ -2,7 +2,29 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
+
+async function getProfileRole(userId: string): Promise<string | null> {
+  const admin = createSupabaseAdminClient();
+  if (admin) {
+    const { data } = await admin
+      .from("profiles")
+      .select("role")
+      .eq("id", userId)
+      .maybeSingle();
+    if (data?.role) return data.role;
+  }
+
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", userId)
+    .maybeSingle();
+
+  return data?.role ?? null;
+}
 
 export async function signInAction(
   formData: FormData,
@@ -30,13 +52,17 @@ export async function signInAction(
     return { error: "Sign in failed. Please try again." };
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", user.id)
-    .single();
+  const role = await getProfileRole(user.id);
 
-  if (profile?.role !== "admin") {
+  if (!role) {
+    await supabase.auth.signOut();
+    return {
+      error:
+        "No admin profile found for this account. Run: npm run grant-admin -- your@email.com",
+    };
+  }
+
+  if (role !== "admin") {
     await supabase.auth.signOut();
     return { error: "You do not have admin access." };
   }

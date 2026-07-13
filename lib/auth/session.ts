@@ -1,6 +1,28 @@
 import { redirect } from "next/navigation";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import type { AdminSession } from "@/types/admin";
+
+async function fetchProfile(userId: string) {
+  const admin = createSupabaseAdminClient();
+  if (admin) {
+    const { data } = await admin
+      .from("profiles")
+      .select("id, email, full_name, role")
+      .eq("id", userId)
+      .maybeSingle();
+    if (data) return data;
+  }
+
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("profiles")
+    .select("id, email, full_name, role")
+    .eq("id", userId)
+    .maybeSingle();
+
+  return data;
+}
 
 export async function getSession() {
   const supabase = await createClient();
@@ -10,11 +32,7 @@ export async function getSession() {
 
   if (!user) return null;
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("id, email, full_name, role")
-    .eq("id", user.id)
-    .single();
+  const profile = await fetchProfile(user.id);
 
   if (!profile) return null;
 

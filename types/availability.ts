@@ -132,7 +132,7 @@ export const SLOT_STATUS_COLORS: Record<
     bg: "bg-red-500/20",
     border: "border-red-500/40",
     text: "text-red-300",
-    label: "Booked",
+    label: "Recurring team",
   },
 };
 

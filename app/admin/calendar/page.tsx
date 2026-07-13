@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { AdminCalendar } from "@/components/admin/admin-calendar";
 import { AdminPageHeader } from "@/components/admin/admin-page-header";
-import { getBookingsForMonth } from "@/services/admin/bookings";
+import { getMonthAvailability } from "@/services/availability";
 
 type PageProps = {
   searchParams: Promise<{ year?: string; month?: string }>;
@@ -14,8 +14,14 @@ async function CalendarContent({
   year: number;
   month: number;
 }) {
-  const bookings = await getBookingsForMonth(year, month);
-  return <AdminCalendar year={year} month={month} bookings={bookings} />;
+  const monthData = await getMonthAvailability(year, month);
+  return (
+    <AdminCalendar
+      year={year}
+      month={month}
+      slotsByDate={monthData.slotsByDate}
+    />
+  );
 }
 
 export default async function AdminCalendarPage({ searchParams }: PageProps) {
@@ -28,7 +34,7 @@ export default async function AdminCalendarPage({ searchParams }: PageProps) {
     <div className="space-y-6">
       <AdminPageHeader
         title="Calendar"
-        description="Visual overview of pitch bookings across the month."
+        description="Bookings, recurring team slots, and blocked times across the month."
       />
       <Suspense
         fallback={

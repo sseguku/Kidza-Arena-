@@ -2,8 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { formatTimeLabel } from "@/lib/booking/constants";
-import { formatUGX } from "@/lib/booking/pricing";
-import type { BookingRecord } from "@/types/booking";
+import { SLOT_STATUS_COLORS, type OccupiedSlot } from "@/types/availability";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -12,12 +11,38 @@ import { useMemo } from "react";
 type AdminCalendarProps = {
   year: number;
   month: number;
-  bookings: BookingRecord[];
+  slotsByDate: Record<string, OccupiedSlot[]>;
 };
 
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-export function AdminCalendar({ year, month, bookings }: AdminCalendarProps) {
+function slotHref(slot: OccupiedSlot): string {
+  if (slot.source === "booking") return "/admin/bookings";
+  return "/admin/availability";
+}
+
+function slotLabel(slot: OccupiedSlot): string {
+  const hour = parseInt(slot.startTime.split(":")[0] ?? "0", 10);
+  const name = slot.teamName.split(" ")[0] ?? slot.teamName;
+  return `${formatTimeLabel(hour)} ${name}`;
+}
+
+function slotTitle(slot: OccupiedSlot): string {
+  const status = SLOT_STATUS_COLORS[slot.status]?.label ?? slot.status;
+  return `${slot.teamName} — ${slot.startTime.slice(0, 5)}–${slot.endTime.slice(0, 5)} (${status})`;
+}
+
+function slotClassName(status: OccupiedSlot["status"]): string {
+  const colors = SLOT_STATUS_COLORS[status];
+  return cn(
+    "block truncate rounded-md border px-1.5 py-0.5 text-[10px] font-medium hover:opacity-90 sm:text-xs",
+    colors.bg,
+    colors.border,
+    colors.text,
+  );
+}
+
+export function AdminCalendar({ year, month, slotsByDate }: AdminCalendarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -34,16 +59,6 @@ export function AdminCalendar({ year, month, bookings }: AdminCalendarProps) {
 
     return cells;
   }, [year, month]);
-
-  const bookingsByDate = useMemo(() => {
-    const map = new Map<string, BookingRecord[]>();
-    for (const b of bookings) {
-      const list = map.get(b.booking_date) ?? [];
-      list.push(b);
-      map.set(b.booking_date, list);
-    }
-    return map;
-  }, [bookings]);
 
   const navigate = (y: number, m: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -62,8 +77,22 @@ export function AdminCalendar({ year, month, bookings }: AdminCalendarProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-lg font-bold">{monthLabel}</h2>
+        <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
+          {(["booked", "pending", "recurring", "blocked"] as const).map((status) => (
+            <span key={status} className="flex items-center gap-1.5">
+              <span
+                className={cn(
+                  "size-2.5 rounded-full border",
+                  SLOT_STATUS_COLORS[status].bg,
+                  SLOT_STATUS_COLORS[status].border,
+                )}
+              />
+              {SLOT_STATUS_COLORS[status].label}
+            </span>
+          ))}
+        </div>
         <div className="flex gap-2">
           <button
             type="button"
@@ -107,9 +136,8 @@ export function AdminCalendar({ year, month, bookings }: AdminCalendarProps) {
             }
 
             const dateKey = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-            const dayBookings = bookingsByDate.get(dateKey) ?? [];
-            const isToday =
-              dateKey === new Date().toISOString().split("T")[0];
+            const daySlots = slotsByDate[dateKey] ?? [];
+            const isToday = dateKey === new Date().toISOString().split("T")[0];
 
             return (
               <div
@@ -128,22 +156,19 @@ export function AdminCalendar({ year, month, bookings }: AdminCalendarProps) {
                   {day}
                 </span>
                 <div className="mt-1 space-y-1">
-                  {dayBookings.slice(0, 3).map((b) => {
-                    const hour = parseInt(b.start_time.split(":")[0] ?? "0", 10);
-                    return (
-                      <Link
-                        key={b.id}
-                        href="/admin/bookings"
-                        className="block truncate rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-medium text-primary hover:bg-primary/20 sm:text-xs"
-                        title={`${b.full_name} — ${formatUGX(b.price_ugx)}`}
-                      >
-                        {formatTimeLabel(hour)} {b.full_name.split(" ")[0]}
-                      </Link>
-                    );
-                  })}
-                  {dayBookings.length > 3 && (
+                  {daySlots.slice(0, 3).map((slot) => (
+                    <Link
+                      key={slot.id}
+                      href={slotHref(slot)}
+                      className={slotClassName(slot.status)}
+                      title={slotTitle(slot)}
+                    >
+                      {slotLabel(slot)}
+                    </Link>
+                  ))}
+                  {daySlots.length > 3 && (
                     <p className="text-[10px] text-muted-foreground">
-                      +{dayBookings.length - 3} more
+                      +{daySlots.length - 3} more
                     </p>
                   )}
                 </div>

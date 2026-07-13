@@ -15,6 +15,14 @@ async function guard() {
   await requireAdmin();
 }
 
+function revalidateAvailabilityPaths() {
+  revalidatePath("/admin/availability");
+  revalidatePath("/admin/calendar");
+  revalidatePath("/availability");
+  revalidatePath("/book");
+  revalidatePath("/");
+}
+
 export async function saveRecurringBookingAction(
   input: Partial<RecurringBooking> & {
     team_name: string;
@@ -25,17 +33,14 @@ export async function saveRecurringBookingAction(
 ) {
   await guard();
   const result = await upsertRecurringBooking(input);
-  revalidatePath("/admin/availability");
-  revalidatePath("/admin/calendar");
-  revalidatePath("/availability");
+  revalidateAvailabilityPaths();
   return result;
 }
 
 export async function deleteRecurringBookingAction(id: string) {
   await guard();
   const result = await deleteRecurringBooking(id);
-  revalidatePath("/admin/availability");
-  revalidatePath("/availability");
+  revalidateAvailabilityPaths();
   return result;
 }
 
@@ -44,15 +49,14 @@ export async function saveBlockedSlotAction(
 ) {
   await guard();
   const result = await upsertBlockedSlot(input);
-  revalidatePath("/admin/availability");
-  revalidatePath("/availability");
+  revalidateAvailabilityPaths();
   return result;
 }
 
 export async function deleteBlockedSlotAction(id: string) {
   await guard();
   const result = await deleteBlockedSlot(id);
-  revalidatePath("/admin/availability");
+  revalidateAvailabilityPaths();
   return result;
 }
 
@@ -62,8 +66,7 @@ export async function skipRecurringOccurrenceAction(
 ) {
   await guard();
   const result = await skipRecurringOccurrence(recurringBookingId, overrideDate);
-  revalidatePath("/admin/availability");
-  revalidatePath("/availability");
+  revalidateAvailabilityPaths();
   return result;
 }
 
@@ -85,8 +88,7 @@ export async function updateBookingDateTimeAction(
     })
     .eq("id", bookingId);
 
+  revalidateAvailabilityPaths();
   revalidatePath("/admin/bookings");
-  revalidatePath("/admin/calendar");
-  revalidatePath("/availability");
   return { error: error?.message ?? null };
 }

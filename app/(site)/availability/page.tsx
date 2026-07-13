@@ -11,6 +11,8 @@ export const metadata = createPageMetadata({
   path: "/availability",
 });
 
+export const dynamic = "force-dynamic";
+
 export default async function AvailabilityPage() {
   const now = new Date();
   const year = now.getFullYear();
@@ -41,8 +43,8 @@ export default async function AvailabilityPage() {
             Pitch Availability
           </h1>
           <p className="mx-auto mt-3 max-w-2xl text-base text-white/60 sm:text-lg">
-            Browse the full schedule by month, week, or day. Green slots are
-            open — red and orange are already taken or pending.
+            Browse the full schedule by month, week, or day. Recurring team slots
+            and blocked times appear in red — green slots are open for booking.
           </p>
         </header>
 
