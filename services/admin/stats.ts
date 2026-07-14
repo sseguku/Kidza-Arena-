@@ -1,9 +1,9 @@
-import { getAdminClient } from "@/lib/auth/session";
+import { getAdminDataClient } from "@/lib/supabase/admin-data";
 import type { BookingStats } from "@/types/admin";
 import type { BookingRecord } from "@/types/booking";
 
 export async function getBookingStats(): Promise<BookingStats> {
-  const { supabase } = await getAdminClient();
+  const supabase = await getAdminDataClient();
   const { data, error } = await supabase.from("bookings").select("*");
 
   if (error || !data) {
@@ -44,7 +44,7 @@ export async function getBookingStats(): Promise<BookingStats> {
 export type MonthlyRevenue = { month: string; revenue: number; count: number };
 
 export async function getMonthlyRevenue(months = 6): Promise<MonthlyRevenue[]> {
-  const { supabase } = await getAdminClient();
+  const supabase = await getAdminDataClient();
   const { data } = await supabase
     .from("bookings")
     .select("booking_date, price_ugx, payment_status, status")
@@ -76,7 +76,7 @@ export async function getMonthlyRevenue(months = 6): Promise<MonthlyRevenue[]> {
 export type BookingTypeBreakdown = { type: string; count: number };
 
 export async function getBookingTypeBreakdown(): Promise<BookingTypeBreakdown[]> {
-  const { supabase } = await getAdminClient();
+  const supabase = await getAdminDataClient();
   const { data } = await supabase.from("bookings").select("booking_type, status");
 
   const rows = (data ?? []).filter((b) => b.status !== "cancelled");

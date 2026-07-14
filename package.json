@@ -12,7 +12,8 @@
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
     "db:migrate": "node scripts/apply-migrations.mjs",
-    "grant-admin": "node scripts/grant-admin.mjs"
+    "grant-admin": "node scripts/grant-admin.mjs",
+    "test:whatsapp": "node scripts/test-callmebot.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
@@ -28,6 +29,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.80.0",
+    "resend": "^6.17.2",
     "tailwind-merge": "^3.3.0",
     "zod": "^4.4.3"
   },

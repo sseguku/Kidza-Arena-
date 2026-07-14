@@ -38,6 +38,8 @@ export async function updateBookingStatusAction(
   revalidatePath("/admin/bookings");
   revalidatePath("/admin/dashboard");
   revalidatePath("/admin/calendar");
+  revalidatePath("/availability");
+  revalidatePath("/book");
   return result;
 }
 
@@ -50,6 +52,7 @@ export async function updatePaymentStatusAction(
   revalidatePath("/admin/bookings");
   revalidatePath("/admin/dashboard");
   revalidatePath("/admin/statistics");
+  revalidatePath("/availability");
   return result;
 }
 

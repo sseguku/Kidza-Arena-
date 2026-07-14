@@ -11,6 +11,8 @@ import { formatUGX } from "@/lib/booking/pricing";
 import { listBookings } from "@/services/admin/bookings";
 import type { BookingStatus, PaymentStatus } from "@/types/database";
 
+export const dynamic = "force-dynamic";
+
 type PageProps = {
   searchParams: Promise<{ status?: string; payment?: string; q?: string }>;
 };

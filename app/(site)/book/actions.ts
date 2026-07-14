@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import {
   isDateInPast,
   isOccupiedConflict,
@@ -7,6 +8,7 @@ import {
 } from "@/lib/booking/availability";
 import { getSessionPeriod, calculateBookingPrice } from "@/lib/booking/pricing";
 import { submitBookingSchema } from "@/lib/booking/schema";
+import { notifyAdminsOfNewBooking } from "@/lib/notifications/booking-notifications";
 import { insertBooking } from "@/services/bookings";
 import {
   getOccupiedSlotsForDate,
@@ -113,6 +115,13 @@ export async function submitBookingAction(
       error: error ?? "Failed to save booking. Please try again or call us.",
     };
   }
+
+  revalidatePath("/admin/bookings");
+  revalidatePath("/admin/dashboard");
+  revalidatePath("/admin/calendar");
+  revalidatePath("/availability");
+
+  void notifyAdminsOfNewBooking(booking);
 
   return { success: true, bookingId: booking.id };
 }

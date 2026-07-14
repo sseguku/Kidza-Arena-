@@ -36,7 +36,7 @@ export function AvailabilityCalendar({
   initialMonth,
   initialMonthData,
 }: AvailabilityCalendarProps) {
-  const [view, setView] = useState<ViewMode>("month");
+  const [view, setView] = useState<ViewMode>("week");
   const [filters, setFilters] = useState<AvailabilityFilters>({});
   const [selectedSlot, setSelectedSlot] = useState<PublicSlotDetail | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);

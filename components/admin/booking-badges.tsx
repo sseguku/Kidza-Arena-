@@ -15,7 +15,7 @@ const statusConfig: Record<
     className: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30",
   },
   cancelled: {
-    label: "Cancelled",
+    label: "Declined",
     className: "bg-red-500/15 text-red-700 dark:text-red-300 border-red-500/30",
   },
 };

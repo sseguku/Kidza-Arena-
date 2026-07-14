@@ -1,4 +1,4 @@
-import { getAdminClient } from "@/lib/auth/session";
+import { getAdminDataClient } from "@/lib/supabase/admin-data";
 import type { BookingRecord } from "@/types/booking";
 import type { BookingStatus, PaymentStatus } from "@/types/database";
 
@@ -12,12 +12,11 @@ export type BookingFilters = {
 export async function listBookings(
   filters: BookingFilters = {},
 ): Promise<BookingRecord[]> {
-  const { supabase } = await getAdminClient();
+  const supabase = await getAdminDataClient();
   let query = supabase
     .from("bookings")
     .select("*")
-    .order("booking_date", { ascending: false })
-    .order("start_time", { ascending: false });
+    .order("created_at", { ascending: false });
 
   if (filters.status && filters.status !== "all") {
     query = query.eq("status", filters.status);
@@ -55,7 +54,7 @@ export async function updateBookingStatus(
   id: string,
   status: BookingStatus,
 ): Promise<{ error: string | null }> {
-  const { supabase } = await getAdminClient();
+  const supabase = await getAdminDataClient();
   const { error } = await supabase
     .from("bookings")
     .update({ status })
@@ -68,7 +67,7 @@ export async function updatePaymentStatus(
   id: string,
   paymentStatus: PaymentStatus,
 ): Promise<{ error: string | null }> {
-  const { supabase } = await getAdminClient();
+  const supabase = await getAdminDataClient();
   const { error } = await supabase
     .from("bookings")
     .update({ payment_status: paymentStatus })
@@ -81,7 +80,7 @@ export async function getBookingsForMonth(
   year: number,
   month: number,
 ): Promise<BookingRecord[]> {
-  const { supabase } = await getAdminClient();
+  const supabase = await getAdminDataClient();
   const start = `${year}-${String(month).padStart(2, "0")}-01`;
   const lastDay = new Date(year, month, 0).getDate();
   const end = `${year}-${String(month).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;

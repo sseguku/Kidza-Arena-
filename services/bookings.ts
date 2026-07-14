@@ -59,8 +59,9 @@ export async function insertBooking(
   );
 
   if (!rpcError && bookingId) {
+    const saved = await fetchBookingById(String(bookingId));
     return {
-      data: { id: bookingId } as BookingRecord,
+      data: saved ?? ({ id: String(bookingId) } as BookingRecord),
       error: null,
     };
   }
@@ -70,7 +71,7 @@ export async function insertBooking(
     const { data, error } = await admin
       .from("bookings")
       .insert(payload)
-      .select("id")
+      .select("*")
       .single();
 
     if (!error && data) {
@@ -85,7 +86,7 @@ export async function insertBooking(
   const { data, error } = await supabase
     .from("bookings")
     .insert(payload)
-    .select("id")
+    .select("*")
     .single();
 
   if (error) {
