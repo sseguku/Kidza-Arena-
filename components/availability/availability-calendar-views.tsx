@@ -1,22 +1,18 @@
 "use client";
 
 import { getSlotClassName } from "@/components/availability/availability-legend";
+import { PremiumWeekCalendar } from "@/components/availability/week-calendar/premium-week-calendar";
 import {
   getDayAvailabilityAction,
   getMonthAvailabilityAction,
   getWeekAvailabilityAction,
 } from "@/app/(site)/availability/actions";
-import { formatTimeLabel, TIME_SLOTS } from "@/lib/booking/constants";
 import {
-  formatLocalDate,
-  getWeekDateRange,
   getWeekStartDate,
-  slotOverlapsHour,
   todayLocalDate,
 } from "@/lib/booking/dates";
 import { cn } from "@/lib/utils";
 import type { AvailabilityFilters, PublicSlotDetail } from "@/types/availability";
-import { DAY_NAMES } from "@/types/availability";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -77,6 +73,7 @@ export function AvailabilityCalendarViews({
   const [monthData, setMonthData] = useState(initialMonthData);
   const [extraDaySlots, setExtraDaySlots] = useState<Record<string, PublicSlotDetail[]>>({});
   const [weekSlots, setWeekSlots] = useState<PublicSlotDetail[]>([]);
+  const [weekLoading, setWeekLoading] = useState(false);
   const [selectedDay, setSelectedDay] = useState(todayLocalDate());
   const [weekStart, setWeekStart] = useState(getWeekStartDate());
   const [loading, setLoading] = useState(false);
@@ -141,10 +138,24 @@ export function AvailabilityCalendarViews({
 
   useEffect(() => {
     if (view !== "week") return;
-    const start = filters.date ?? weekStart;
-    void getWeekAvailabilityAction(start).then((r) =>
-      setWeekSlots(applyClientFilters(r.slots, filters)),
-    );
+    const start = filters.date ? getWeekStartDate(parseLocalDateFromKey(filters.date)) : weekStart;
+    if (filters.date && start !== weekStart) {
+      setWeekStart(start);
+    }
+    let cancelled = false;
+    setWeekLoading(true);
+    void getWeekAvailabilityAction(start)
+      .then((r) => {
+        if (!cancelled) {
+          setWeekSlots(applyClientFilters(r.slots, filters));
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setWeekLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [view, filters, weekStart]);
 
   const monthLabel = new Date(year, month - 1, 1).toLocaleDateString("en-UG", {
@@ -267,73 +278,16 @@ export function AvailabilityCalendarViews({
   }
 
   if (view === "week") {
-    const start = filters.date ?? weekStart;
-    const weekDates = getWeekDateRange(start);
+    const start = filters.date ? getWeekStartDate(parseLocalDateFromKey(filters.date)) : weekStart;
 
     return (
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-white sm:text-xl">
-            Week of{" "}
-            {parseLocalDateFromKey(start).toLocaleDateString("en-UG", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </h2>
-          <div className="flex gap-2">
-            <NavBtn
-              onClick={() => setWeekStart(addWeekOffset(start, -7))}
-              label="Previous week"
-            />
-            <NavBtn
-              onClick={() => setWeekStart(addWeekOffset(start, 7))}
-              label="Next week"
-            />
-          </div>
-        </div>
-        <div className="overflow-x-auto rounded-2xl border border-white/10">
-        <div className="min-w-[640px]">
-          <div className="grid grid-cols-8 border-b border-white/10 bg-white/5">
-            <div className="p-3 text-xs font-bold text-white/40">Time</div>
-            {weekDates.map((date) => {
-              const dow = parseLocalDateFromKey(date).getDay();
-              return (
-                <div key={date} className="p-3 text-center">
-                  <p className="text-xs text-white/50">{DAY_NAMES[dow]?.slice(0, 3)}</p>
-                  <p className="font-bold text-white">{date.slice(8)}</p>
-                </div>
-              );
-            })}
-          </div>
-          {TIME_SLOTS.map((time) => (
-            <div key={time} className="grid grid-cols-8 border-b border-white/5">
-              <div className="flex items-center p-2 text-xs text-white/50">
-                {formatTimeLabel(parseInt(time.split(":")[0] ?? "0", 10))}
-              </div>
-              {weekDates.map((date) => {
-                const hour = parseInt(time.split(":")[0] ?? "0", 10);
-                const cellSlots = weekSlots.filter((s) => {
-                  if (s.date !== date) return false;
-                  return slotOverlapsHour(s.startTime, s.endTime, hour);
-                });
-                return (
-                  <div key={`${date}-${time}`} className="min-h-14 border-l border-white/5 p-1">
-                    {cellSlots.map((slot) => (
-                      <SlotPill
-                        key={`${slot.id}-${hour}`}
-                        slot={slot}
-                        onClick={() => onSlotClick(slot)}
-                      />
-                    ))}
-                  </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-        </div>
-      </div>
+      <PremiumWeekCalendar
+        weekStart={start}
+        onWeekChange={setWeekStart}
+        slots={weekSlots}
+        loading={weekLoading}
+        onSlotClick={onSlotClick}
+      />
     );
   }
 
@@ -417,12 +371,6 @@ function SlotPill({
 function parseLocalDateFromKey(date: string): Date {
   const [y, mo, d] = date.split("-").map(Number);
   return new Date(y!, mo! - 1, d!);
-}
-
-function addWeekOffset(weekStart: string, days: number): string {
-  const d = parseLocalDateFromKey(weekStart);
-  d.setDate(d.getDate() + days);
-  return formatLocalDate(d);
 }
 
 function NavBtn({ onClick, label }: { onClick: () => void; label: string }) {

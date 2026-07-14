@@ -34,7 +34,7 @@ export default async function AvailabilityPage() {
             "radial-gradient(ellipse 80% 50% at 50% -20%, rgb(17 122 61 / 0.35), transparent)",
         }}
       />
-      <div className="relative mx-auto max-w-6xl space-y-8">
+      <div className="relative mx-auto max-w-[90rem] space-y-8">
         <header className="text-center">
           <p className="text-sm font-bold uppercase tracking-[0.2em] text-[var(--landing-green)]">
             Live Calendar
