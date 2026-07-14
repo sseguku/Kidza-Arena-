@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOutAction } from "@/lib/auth/actions";
 import { adminNavItems } from "@/lib/admin/navigation";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, LogOut } from "lucide-react";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 type AdminSidebarProps = {
   collapsed?: boolean;
@@ -81,16 +83,34 @@ export function AdminSidebar({
         })}
       </nav>
 
-      {!collapsed && (
-        <div className="border-t border-sidebar-border p-4">
+      <div
+        className={cn(
+          "space-y-2 border-t border-sidebar-border p-3",
+          collapsed && "flex flex-col items-center",
+        )}
+      >
+        {!collapsed && (
           <Link
             href="/"
-            className="text-xs font-medium text-muted-foreground hover:text-foreground"
+            className="block px-1 text-xs font-medium text-muted-foreground hover:text-foreground"
           >
             ← Back to website
           </Link>
-        </div>
-      )}
+        )}
+        <form action={signOutAction} className={cn(collapsed ? "w-full" : "w-full")}>
+          <Button
+            type="submit"
+            variant="outline"
+            size={collapsed ? "icon-sm" : "sm"}
+            className={cn("w-full", collapsed && "size-9")}
+            title="Log out"
+            aria-label="Log out"
+          >
+            <LogOut className="size-4" />
+            {!collapsed && <span>Log out</span>}
+          </Button>
+        </form>
+      </div>
     </aside>
   );
 }
@@ -143,6 +163,12 @@ export function AdminMobileNav() {
               </Link>
             );
           })}
+          <form action={signOutAction} className="border-t border-border px-2 pt-2">
+            <Button type="submit" variant="outline" size="sm" className="mb-2 w-full">
+              <LogOut className="size-4" />
+              Log out
+            </Button>
+          </form>
         </nav>
       )}
     </div>

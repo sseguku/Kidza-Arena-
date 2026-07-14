@@ -50,9 +50,9 @@ export function AdminHeader({ session }: AdminHeaderProps) {
           </div>
 
           <form action={signOutAction}>
-            <Button variant="outline" size="sm" type="submit">
+            <Button variant="outline" size="sm" type="submit" aria-label="Log out">
               <LogOut className="size-4" />
-              <span className="hidden sm:inline">Sign out</span>
+              <span className="hidden sm:inline">Log out</span>
             </Button>
           </form>
         </div>
