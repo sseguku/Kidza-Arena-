@@ -57,7 +57,10 @@ export function WeekCalendarMobile({
   const isToday = activeDate === today;
 
   const daySlots = slots.filter(
-    (s) => s.date === activeDate && s.status !== "available",
+    (s) =>
+      s.date === activeDate &&
+      s.status !== "available" &&
+      s.status !== "pending",
   );
 
   const goTo = useCallback(

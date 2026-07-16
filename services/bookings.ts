@@ -37,7 +37,7 @@ export async function fetchBookedSlotsForDate(
     .from("bookings")
     .select("booking_date, start_time, duration_hours")
     .eq("booking_date", date)
-    .neq("status", "cancelled");
+    .eq("status", "confirmed");
 
   if (error) {
     console.warn("[bookings] fetchBookedSlotsForDate:", error.message);

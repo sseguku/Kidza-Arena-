@@ -1,23 +1,38 @@
-import { SLOT_STATUS_COLORS, type SlotStatus } from "@/types/availability";
+import type { SlotStatus } from "@/types/availability";
+import { SLOT_STATUS_COLORS } from "@/types/availability";
 import { cn } from "@/lib/utils";
 
-export function AvailabilityLegend({ className }: { className?: string }) {
-  const items: SlotStatus[] = [
-    "available",
-    "booked",
-    "recurring",
-    "pending",
-    "blocked",
-    "cancelled",
-  ];
+export const DEFAULT_LEGEND_STATUSES: SlotStatus[] = [
+  "available",
+  "booked",
+  "recurring",
+  "pending",
+  "blocked",
+  "cancelled",
+];
 
+/** Legend for the public booking flow — pending requests are admin-only. */
+export const BOOKING_LEGEND_STATUSES: SlotStatus[] = [
+  "available",
+  "booked",
+  "recurring",
+  "blocked",
+];
+
+export function AvailabilityLegend({
+  className,
+  statuses = DEFAULT_LEGEND_STATUSES,
+}: {
+  className?: string;
+  statuses?: SlotStatus[];
+}) {
   return (
     <div
       className={cn("flex flex-wrap gap-3 sm:gap-4", className)}
       role="list"
       aria-label="Availability legend"
     >
-      {items.map((status) => {
+      {statuses.map((status) => {
         const config = SLOT_STATUS_COLORS[status];
         return (
           <div key={status} className="flex items-center gap-2" role="listitem">

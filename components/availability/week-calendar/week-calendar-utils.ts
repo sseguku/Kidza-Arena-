@@ -67,7 +67,9 @@ export function computeWeekStats(
   today: string,
 ): WeekStats {
   const weekDates = getWeekDateRange(weekStart);
-  const active = slots.filter((s) => s.status !== "cancelled" && s.status !== "available");
+  const occupying = slots.filter(
+    (s) => s.status !== "cancelled" && s.status !== "available",
+  );
   const hours = getWeekHours();
   const totalCells = weekDates.length * hours.length;
   let occupiedCells = 0;
@@ -76,20 +78,18 @@ export function computeWeekStats(
   const teamCounts = new Map<string, number>();
 
   for (const date of weekDates) {
-    let dayCount = 0;
     for (const hour of hours) {
-      const taken = active.some(
+      const taken = occupying.some(
         (s) => s.date === date && slotOccupiesHour(s, hour),
       );
       if (taken) {
         occupiedCells++;
-        dayCount++;
       }
     }
-    dayCounts.set(date, dayCount);
+    dayCounts.set(date, occupying.filter((s) => s.date === date).length);
   }
 
-  for (const slot of active) {
+  for (const slot of occupying) {
     teamCounts.set(slot.teamName, (teamCounts.get(slot.teamName) ?? 0) + 1);
   }
 
@@ -114,7 +114,7 @@ export function computeWeekStats(
   let nextAvailable: WeekStats["nextAvailable"] = null;
   outer: for (const date of weekDates) {
     for (const hour of hours) {
-      if (isHourAvailable(date, hour, active)) {
+      if (isHourAvailable(date, hour, occupying)) {
         nextAvailable = {
           date,
           hour,
@@ -127,13 +127,13 @@ export function computeWeekStats(
 
   return {
     occupancyPercent: totalCells ? Math.round((occupiedCells / totalCells) * 100) : 0,
-    totalBookings: active.length,
+    totalBookings: occupying.length,
     availableHours: totalCells - occupiedCells,
     peakDay,
     peakDayCount,
     topTeam,
     topTeamCount,
-    todaySlots: active.filter((s) => s.date === today),
+    todaySlots: occupying.filter((s) => s.date === today),
     nextAvailable,
   };
 }

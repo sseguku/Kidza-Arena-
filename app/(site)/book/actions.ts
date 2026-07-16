@@ -12,9 +12,9 @@ import { notifyAdminsOfNewBooking } from "@/lib/notifications/booking-notificati
 import { insertBooking } from "@/services/bookings";
 import {
   getOccupiedSlotsForDate,
+  excludePendingFromDisplay,
   suggestNextAvailableSlots,
 } from "@/services/availability";
-import { toPublicSlotDetail } from "@/services/availability";
 
 export async function getAvailabilityAction(date: string) {
   if (!date || isDateInPast(date)) {
@@ -22,11 +22,10 @@ export async function getAvailabilityAction(date: string) {
   }
 
   try {
-    const occupied = await getOccupiedSlotsForDate(date);
-    return {
-      occupied,
-      publicSlots: occupied.map(toPublicSlotDetail),
-    };
+    const occupied = excludePendingFromDisplay(
+      await getOccupiedSlotsForDate(date),
+    );
+    return { occupied };
   } catch (e) {
     return {
       occupied: [],

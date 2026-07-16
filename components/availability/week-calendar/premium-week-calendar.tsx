@@ -59,7 +59,12 @@ export function PremiumWeekCalendar({
     for (const date of weekDates) {
       map.set(
         date,
-        slots.filter((s) => s.date === date && s.status !== "available"),
+        slots.filter(
+          (s) =>
+            s.date === date &&
+            s.status !== "available" &&
+            s.status !== "pending",
+        ),
       );
     }
     return map;

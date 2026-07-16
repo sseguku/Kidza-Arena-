@@ -1,4 +1,5 @@
 import { getAdminDataClient } from "@/lib/supabase/admin-data";
+import { bookingsOverlap } from "@/lib/booking/overlap";
 import type { BookingRecord } from "@/types/booking";
 import type { BookingStatus, PaymentStatus } from "@/types/database";
 
@@ -55,12 +56,69 @@ export async function updateBookingStatus(
   status: BookingStatus,
 ): Promise<{ error: string | null }> {
   const supabase = await getAdminDataClient();
+
+  const { data: booking, error: fetchError } = await supabase
+    .from("bookings")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (fetchError || !booking) {
+    return { error: fetchError?.message ?? "Booking not found" };
+  }
+
+  const record = booking as BookingRecord;
+
+  if (status === "confirmed") {
+    const { data: confirmedRows } = await supabase
+      .from("bookings")
+      .select("*")
+      .eq("booking_date", record.booking_date)
+      .eq("status", "confirmed")
+      .neq("id", id);
+
+    const hasConfirmedConflict = ((confirmedRows ?? []) as BookingRecord[]).some(
+      (row) => bookingsOverlap(record, row),
+    );
+
+    if (hasConfirmedConflict) {
+      return {
+        error:
+          "This slot is already confirmed for another booking. Decline this request instead.",
+      };
+    }
+  }
+
   const { error } = await supabase
     .from("bookings")
     .update({ status })
     .eq("id", id);
 
-  return { error: error?.message ?? null };
+  if (error) {
+    return { error: error.message ?? null };
+  }
+
+  if (status === "confirmed") {
+    const { data: pendingRows } = await supabase
+      .from("bookings")
+      .select("*")
+      .eq("booking_date", record.booking_date)
+      .eq("status", "pending_approval")
+      .neq("id", id);
+
+    const competingIds = ((pendingRows ?? []) as BookingRecord[])
+      .filter((row) => bookingsOverlap(record, row))
+      .map((row) => row.id);
+
+    if (competingIds.length > 0) {
+      await supabase
+        .from("bookings")
+        .update({ status: "cancelled" })
+        .in("id", competingIds);
+    }
+  }
+
+  return { error: null };
 }
 
 export async function updatePaymentStatus(
@@ -96,4 +154,21 @@ export async function getBookingsForMonth(
 
   if (error) return [];
   return (data ?? []) as BookingRecord[];
+}
+
+/** How many pending requests share the same slot window (including this booking). */
+export function countCompetingPendingBookings(
+  bookings: BookingRecord[],
+): Map<string, number> {
+  const pending = bookings.filter((b) => b.status === "pending_approval");
+  const counts = new Map<string, number>();
+
+  for (const booking of pending) {
+    const total = pending.filter((other) => bookingsOverlap(booking, other)).length;
+    if (total > 1) {
+      counts.set(booking.id, total);
+    }
+  }
+
+  return counts;
 }

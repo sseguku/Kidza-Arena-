@@ -80,11 +80,12 @@ function normalizeDate(value: string | null | undefined): string | null {
   return value.slice(0, 10);
 }
 
-function bookingToOccupied(b: BookingRecord): OccupiedSlot {
+function bookingToOccupied(b: BookingRecord): OccupiedSlot | null {
+  if (b.status === "pending_approval") return null;
+
   const start = normalizeTime(b.start_time);
   const endMin = timeToMinutes(start) + b.duration_hours * 60;
   let status: SlotStatus = "booked";
-  if (b.status === "pending_approval") status = "pending";
   if (b.status === "cancelled") status = "cancelled";
 
   return {
@@ -235,7 +236,7 @@ async function fetchBookingsForRange(
         .select("*")
         .gte("booking_date", startDate)
         .lte("booking_date", endDate)
-        .neq("status", "cancelled"),
+        .eq("status", "confirmed"),
     [] as BookingRecord[],
   );
 }
@@ -263,7 +264,7 @@ export async function getOccupiedSlotsForDate(
 
     for (const b of bookings) {
       const slot = bookingToOccupied(b);
-      if (slot.status !== "cancelled" || options?.includeCancelled) {
+      if (slot && (slot.status !== "cancelled" || options?.includeCancelled)) {
         slots.push(slot);
       }
     }
@@ -319,7 +320,8 @@ export const getMonthAvailability = cache(
 
         if (!isDateInPast(date)) {
           for (const b of bookings.filter((bk) => bk.booking_date === date)) {
-            daySlots.push(bookingToOccupied(b));
+            const slot = bookingToOccupied(b);
+            if (slot) daySlots.push(slot);
           }
         }
 
@@ -386,6 +388,12 @@ export async function getOccupiedSlotsForRange(
     console.warn("[availability] getOccupiedSlotsForRange:", getErrorMessage(error));
     return [];
   }
+}
+
+export function excludePendingFromDisplay<T extends { status: SlotStatus }>(
+  slots: T[],
+): T[] {
+  return slots.filter((s) => s.status !== "pending");
 }
 
 export function toPublicSlotDetail(slot: OccupiedSlot): PublicSlotDetail {
@@ -455,10 +463,12 @@ export async function getAvailabilityPreview(): Promise<AvailabilityPreview> {
     const nextSlots = getNextAvailableSlots(todayStr, 1, occupiedByDate, 1);
 
     return {
-      todaySlots,
-      weekSlots,
+      todaySlots: excludePendingFromDisplay(todaySlots),
+      weekSlots: excludePendingFromDisplay(weekSlots),
       nextAvailable: nextSlots[0] ?? null,
-      weekBookingCount: weekSlots.filter((s) => s.status !== "blocked").length,
+      weekBookingCount: excludePendingFromDisplay(weekSlots).filter(
+        (s) => s.status !== "blocked",
+      ).length,
       monthLabel: today.toLocaleDateString("en-UG", {
         month: "long",
         year: "numeric",

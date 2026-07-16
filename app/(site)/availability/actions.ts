@@ -2,6 +2,7 @@
 
 import {
   applyAvailabilityFilters,
+  excludePendingFromDisplay,
   getAvailabilityPreview,
   getMonthAvailability,
   getOccupiedSlotsForDate,
@@ -19,7 +20,7 @@ export async function getMonthAvailabilityAction(year: number, month: number) {
   const data = await getMonthAvailability(year, month);
   const publicSlots: Record<string, PublicSlotDetail[]> = {};
   for (const [date, slots] of Object.entries(data.slotsByDate)) {
-    publicSlots[date] = slots.map(toPublicSlotDetail);
+    publicSlots[date] = excludePendingFromDisplay(slots).map(toPublicSlotDetail);
   }
   return { year: data.year, month: data.month, slotsByDate: publicSlots };
 }
@@ -36,7 +37,7 @@ export async function getDayAvailabilityAction(
     const { dayOfWeek: _dayOfWeek, date: _date, ...dayFilters } = filters;
     slots = applyAvailabilityFilters(slots, dayFilters);
   }
-  return { slots: slots.map(toPublicSlotDetail) };
+  return { slots: excludePendingFromDisplay(slots).map(toPublicSlotDetail) };
 }
 
 export async function getWeekAvailabilityAction(weekStart: string) {

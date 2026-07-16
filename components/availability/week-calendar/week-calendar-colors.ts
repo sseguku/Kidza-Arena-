@@ -66,7 +66,6 @@ export function weekSlotClassName(slot: PublicSlotDetail): string {
 export const WEEK_LEGEND_ITEMS: SlotStatus[] = [
   "recurring",
   "booked",
-  "pending",
   "cancelled",
   "blocked",
   "available",

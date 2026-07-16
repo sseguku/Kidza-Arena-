@@ -7,14 +7,17 @@ import {
   formatTimeLabel,
   TIME_SLOTS,
 } from "@/lib/booking/constants";
-import { getUnavailableSlots, getSlotStatusForTime } from "@/lib/booking/availability";
+import { getUnavailableSlots, getBookableSlotStatusForTime } from "@/lib/booking/availability";
 import {
   calculateBookingPrice,
   getSessionPeriod,
 } from "@/lib/booking/pricing";
 import { cn } from "@/lib/utils";
-import { getSlotClassName } from "@/components/availability/availability-legend";
-import { AvailabilityLegend } from "@/components/availability/availability-legend";
+import {
+  AvailabilityLegend,
+  BOOKING_LEGEND_STATUSES,
+  getSlotClassName,
+} from "@/components/availability/availability-legend";
 import type { OccupiedSlot } from "@/types/availability";
 import type { BookingType } from "@/types/booking";
 import { motion } from "framer-motion";
@@ -57,10 +60,15 @@ export function StepSchedule({
 }: StepScheduleProps) {
   const durationOptions = DURATION_OPTIONS[bookingType];
 
+  const bookableOccupied = useMemo(
+    () => occupiedSlots.filter((slot) => slot.status !== "pending"),
+    [occupiedSlots],
+  );
+
   const unavailable = useMemo(() => {
     if (!date) return new Set<string>();
-    return getUnavailableSlots(date, durationHours, occupiedSlots);
-  }, [date, durationHours, occupiedSlots]);
+    return getUnavailableSlots(date, durationHours, bookableOccupied);
+  }, [date, durationHours, bookableOccupied]);
 
   const sessionPeriod = startTime ? getSessionPeriod(startTime) : null;
 
@@ -89,7 +97,10 @@ export function StepSchedule({
       </header>
 
       <GlassCard className="space-y-6">
-        <AvailabilityLegend className="justify-center sm:justify-start" />
+        <AvailabilityLegend
+          statuses={BOOKING_LEGEND_STATUSES}
+          className="justify-center sm:justify-start"
+        />
         <div className="space-y-2">
           <label
             htmlFor="booking-date"
@@ -167,8 +178,17 @@ export function StepSchedule({
                 const isSelected = startTime === slot;
                 const isNight = hour >= 18;
                 const status = date
-                  ? getSlotStatusForTime(date, slot, durationHours, occupiedSlots)
+                  ? getBookableSlotStatusForTime(
+                      date,
+                      slot,
+                      durationHours,
+                      bookableOccupied,
+                    )
                   : "available";
+                const displayStatus =
+                  status === "pending" || status === "cancelled"
+                    ? "available"
+                    : status;
 
                 return (
                   <button
@@ -182,12 +202,12 @@ export function StepSchedule({
                         "border-[var(--landing-gold)] bg-[var(--landing-gold)]/15 text-[var(--landing-gold)] shadow-glow-gold",
                       !isSelected &&
                         !isUnavailable &&
-                        status === "available" &&
+                        displayStatus === "available" &&
                         "border-emerald-500/30 bg-emerald-500/10 text-emerald-300 hover:border-emerald-400",
                       !isSelected &&
                         isUnavailable &&
                         getSlotClassName(
-                          status === "available" ? "blocked" : status,
+                          displayStatus === "available" ? "blocked" : displayStatus,
                         ),
                       !isSelected &&
                         isUnavailable &&

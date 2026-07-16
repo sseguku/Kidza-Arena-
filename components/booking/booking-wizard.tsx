@@ -110,7 +110,9 @@ export function BookingWizard() {
   const handleDurationChange = (hours: number) => {
     updateField("durationHours", hours);
     if (values.date && values.startTime) {
-      const unavailable = getUnavailableSlots(values.date, hours, occupiedSlots);
+      const unavailable = getUnavailableSlots(values.date, hours, occupiedSlots.filter(
+        (slot) => slot.status !== "pending",
+      ));
       if (unavailable.has(values.startTime)) {
         updateField("startTime", "");
       }
@@ -132,7 +134,7 @@ export function BookingWizard() {
       const unavailable = getUnavailableSlots(
         currentValues.date,
         currentValues.durationHours,
-        occupiedSlots,
+        occupiedSlots.filter((slot) => slot.status !== "pending"),
       );
       if (unavailable.has(currentValues.startTime)) {
         setFieldErrors({

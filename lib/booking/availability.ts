@@ -50,7 +50,12 @@ export function rangesOverlap(
 
 export function occupiedToBookedSlots(slots: OccupiedSlot[]): BookedSlot[] {
   return slots
-    .filter((s) => s.status !== "cancelled" && s.status !== "available")
+    .filter(
+      (s) =>
+        s.status !== "cancelled" &&
+        s.status !== "available" &&
+        s.status !== "pending",
+    )
     .map((s) => ({
       booking_date: s.date,
       start_time: s.startTime,
@@ -74,7 +79,13 @@ export function isOccupiedConflict(
 
   return occupied.some((slot) => {
     if (slot.date !== date) return false;
-    if (slot.status === "cancelled" || slot.status === "available") return false;
+    if (
+      slot.status === "cancelled" ||
+      slot.status === "available" ||
+      slot.status === "pending"
+    ) {
+      return false;
+    }
     const slotStart = timeToMinutes(slot.startTime);
     const slotEnd = timeToMinutes(slot.endTime);
     return rangesOverlapMinutes(startMin, endMin, slotStart, slotEnd);
@@ -130,6 +141,7 @@ export function getSlotStatusForTime(
   if (isOccupiedConflict(date, startTime, durationHours, occupied)) {
     const conflict = occupied.find((s) => {
       if (s.date !== date) return false;
+      if (s.status === "pending") return false;
       const startMin = timeToMinutes(startTime);
       const endMin = startMin + durationHours * 60;
       const slotStart = timeToMinutes(s.startTime);
@@ -139,6 +151,17 @@ export function getSlotStatusForTime(
     return conflict?.status ?? "booked";
   }
   return "available";
+}
+
+/** Slot status for the public booking picker — pending never blocks or displays. */
+export function getBookableSlotStatusForTime(
+  date: string,
+  startTime: string,
+  durationHours: number,
+  occupied: OccupiedSlot[],
+): SlotStatus {
+  const status = getSlotStatusForTime(date, startTime, durationHours, occupied);
+  return status === "pending" ? "available" : status;
 }
 
 export function getUnavailableSlots(

@@ -1,6 +1,6 @@
 import { AvailabilityCalendar } from "@/components/availability/availability-calendar";
 import { LandingButton } from "@/components/landing/primitives/button";
-import { getMonthAvailability } from "@/services/availability";
+import { excludePendingFromDisplay, getMonthAvailability } from "@/services/availability";
 import { toPublicSlotDetail } from "@/services/availability";
 import { createPageMetadata } from "@/lib/metadata";
 
@@ -21,7 +21,7 @@ export default async function AvailabilityPage() {
   const monthData = await getMonthAvailability(year, month);
   const publicSlots: Record<string, ReturnType<typeof toPublicSlotDetail>[]> = {};
   for (const [date, slots] of Object.entries(monthData.slotsByDate)) {
-    publicSlots[date] = slots.map(toPublicSlotDetail);
+    publicSlots[date] = excludePendingFromDisplay(slots).map(toPublicSlotDetail);
   }
 
   return (

@@ -8,7 +8,7 @@ import { BrandCard } from "@/components/design-system";
 import { DataTable } from "@/components/design-system/data-table";
 import { formatTimeLabel } from "@/lib/booking/constants";
 import { formatUGX } from "@/lib/booking/pricing";
-import { listBookings } from "@/services/admin/bookings";
+import { listBookings, countCompetingPendingBookings } from "@/services/admin/bookings";
 import type { BookingStatus, PaymentStatus } from "@/types/database";
 
 export const dynamic = "force-dynamic";
@@ -27,6 +27,7 @@ export default async function AdminBookingsPage({ searchParams }: PageProps) {
     payment: payment === "all" ? undefined : payment,
     search: params.q,
   });
+  const competingPending = countCompetingPendingBookings(bookings);
 
   const filters = [
     { label: "All", status: "all", payment: "all" },
@@ -114,6 +115,11 @@ export default async function AdminBookingsPage({ searchParams }: PageProps) {
                 <div className="flex flex-col gap-1">
                   <BookingStatusBadge status={b.status} />
                   <PaymentStatusBadge status={b.payment_status} />
+                  {competingPending.get(b.id) && (
+                    <span className="inline-flex w-fit rounded-full bg-amber-500/15 px-2 py-0.5 text-[10px] font-semibold text-amber-700 dark:text-amber-300">
+                      {competingPending.get(b.id)} requests for this slot
+                    </span>
+                  )}
                 </div>
               ),
             },
